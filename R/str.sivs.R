@@ -15,14 +15,16 @@
 #' of the terminal that should be used by the function. If there are any lines
 #' larger than this value, they will be truncated. Default is the terminal size
 #' that is retuned by R.
+#' @param ... potential further arguments (required for Method/Generic reasons).
 #'
-#' @method str sivs
+#' @export
 
 str.sivs <- function(object,
-                        max_depth = 2,
-                        max_leaves = 2,
-                        max_width = options("width")$width){
-    
+                     max_depth = 2,
+                     max_leaves = 2,
+                     max_width = options("width")$width,
+                     ...){
+
     #-------[ initial settings ]-------#
     {
         init_accaptable_classes_object <- c("sivs", "list")

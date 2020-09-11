@@ -1,8 +1,8 @@
 Package: sivs
 Type: Package
 Title: Seed Independent Variable selection
-Version: 1.0.0
-Date: 2020-09-03
+Version: 0.2.1
+Date: 2020-09-11
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
                     email = "mehrad.mahmoudian@utu.fi",
@@ -21,12 +21,15 @@ Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     comment = c(ORCID = "0000-0001-5648-4532")))
 Imports: doParallel, parallel, foreach, glmnet, pROC, varhandle, utils
 Suggests: 
-Description: An iterative feature selection method that internally utilize
-    Machine Learning methods with embeded feature reduction in order to shrink
-    down the feature space into a small and yet robust set.
+    knitr,
+    rmarkdown
+Description: An iterative feature selection method that internally utilizes
+    varius Machine Learning methods that have embeded feature reduction in
+    order to shrink down the feature space into a small and yet robust set.
 License: GPL-3
-URL: 
-BugReports: 
+URL: https://github.com/mmahmoudian/sivs
+BugReports: https://github.com/mmahmoudian/sivs/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

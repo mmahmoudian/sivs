@@ -6,17 +6,18 @@
 #' @param object An object of class "sivs"
 #' @param step  A a character string of length 1. It should either specify the
 #' step ("iterative.res" or "rfe"), or step$subsetp (e.g "rfe$baseline").
+#' @param ... potential further arguments (required for Method/Generic reasons).
 #' 
 #' @examples
 #' \dontrun{
 #' # getting the coefficients of features for the baseline runs in rfe
 #' coef(object = sivs_object, step = "rfe$baseline")
 #' }
-#'
-#' @method coef sivs
+#' 
+#' @export
 
 
-coef.sivs <- function(object, step = "iterative.res"){
+coef.sivs <- function(object, step = "iterative.res", ...){
     
     #-------[ initial settings ]-------#
     {

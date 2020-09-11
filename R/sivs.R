@@ -2,19 +2,19 @@
 #'
 #' @description The name is an acronym for Seed Independent Variable Selection.
 #' This function will iteratively run a machine learning method that can
-#' incorporate a shrinkake method using multiple random seeds in order to find
+#' incorporate a shrinkage method using multiple random seeds in order to find
 #' the smallest set of features that can robustly be predictive.
 #'
 #' @param x The input data. Each row should represent a sample and each column should represent a feature.
 #' @param y Response variable. It should be of class factor for classification and of class Surv for survival.
 #' @param test.ratio How much of the data should be cut and used for testing
-#' @param method The method to be used in the machine learning
-#' @param iter.count How many iteration should the function go through
+#' @param method The internal machine learning method to be used
+#' @param iter.count How many iterations should the function go through
 #' @param nfolds How many folds should the training cross-validations have
-#' @param sample.grouping A character, numeric or factor vectr to specify how the samples should be grouped/bundled together in the cross-validation binning. If set to NULL the grouping will be skipped. Samples with the same value will be always kept together in the same bins in cross-validation. This is especially useful when having multiple samples from the same individual. Default is NULL.
-#' @param parallel.cores How many cores should be used in the iterative process. The value should be the number of threads in numeric form, or any of these vectors: "max", "grace", FALSE, NULL. If set to "max", all core will be used and in large datasets you might face your compueter struggling and ultimately errors. If set to "grace", one core will be left out so that it can be used by other processes in the machine. If set to NULL of FALSE, the code will run sequentially and not with parallel backend.
+#' @param sample.grouping A character, numeric or factor vector to specify how the samples should be grouped/bundled together in the cross-validation binning. If set to NULL the grouping will be skipped. Samples with the same value will always be kept together in the same bins in cross-validation. This is especially useful when having multiple samples from the same individual. Default is NULL.
+#' @param parallel.cores How many cores should be used in the iterative process. The value should be the number of threads in numeric form, or any of these values: "max", "grace", FALSE, NULL. If set to "max", all cores will be used and in large datasets you might face your computer struggling and ultimately errors. If set to "grace", one core will be left out so that it can be used by other processes in the machine. If set to NULL of FALSE, the code will run sequentially and without the parallel backend.
 #' @param progressbar Logical. If the progressbar should be shown. Default is TRUE.
-#' @param verbose Character. How details the steps should be reported. The value should be a character vector of length 1. "detailed" will report every single step. "general" will report only main steps. "none" or FALSE will suppress any reporting.
+#' @param verbose Character. How detailed the progress should be reported. The value should be a character vector of length 1. "detailed" will report every single step. "general" will report only main steps. "none" or FALSE will suppress any reporting.
 #' @param return.fits Logical. Whether the fit object for each iterative run should be returned. Having the fits in the final object would significantly increase the final object size. Default is FALSE.
 #' @param return.roc Logical. Whether the ROC object for each iterative run should be returned. Having the fits in the final object would significantly increase the final object size. Default is FALSE.
 #' @param return.sessionInfo Logical. Whether the utils::sessionInfo() be included in the final object. This is useful for reproducibility purposes. Default is TRUE.
@@ -41,7 +41,7 @@
 #' # get the variable importance values
 #' sivs_object$vimp
 #' 
-#' # get the cndision that the sivs was ran in
+#' # get the condision that the sivs was ran in
 #' sivs_object$run.info$call
 #' sivs_object$run.info$sessionInfo
 #' 
@@ -55,11 +55,6 @@
 #' @importFrom pROC roc auc
 #'
 #' @export
-#' 
-
-# to bypass a note in R CMD check about i being undefined global variable
-# https://nathaneastwood.github.io/2019/08/18/no-visible-binding-for-global-variable/
-if(getRversion() >= "2.15.1")  utils::globalVariables(c("i"))
 
 sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                  iter.count = 100, nfolds = 10, sample.grouping = NULL,
@@ -68,6 +63,10 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                  return.roc = FALSE, return.sessionInfo = TRUE,
                  lib.paths = .libPaths(), ...){
     
+    # ## to bypass a note in R CMD check about i being undefined global variable
+    # ## https://nathaneastwood.github.io/2019/08/18/no-visible-binding-for-global-variable/
+    # if(getRversion() >= "2.15.1")  utils::globalVariables(c("i"))
+
     #-------[ initialize some variables ]-------#
     {
         # define the methods that this function can run
@@ -1233,7 +1232,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                     return(tmp)
                 }
                 
-                # fix the names of the iterations for this 
+                # fix the names of the iterations for this
                 names(tmp.rfe.res) <- paste0("iteration.", 1:length(tmp.rfe.res))
                 
                 # append the object of iteration to the collective list
@@ -1293,7 +1292,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                             " left. As the result the rfe step is skipped.")
             
             
-            ## assign NULL to the both objects that would have been filled 
+            ## assign NULL to the both objects that would have been filled
             ## if we were not in the else section of this if! Setting them
             ## to NULL would remove them from the final object of the
             ## function.
@@ -1328,3 +1327,8 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
     # return the final object
     return(final.object)
 }
+
+
+
+
+

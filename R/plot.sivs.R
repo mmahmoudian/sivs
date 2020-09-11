@@ -1,8 +1,8 @@
-#' A plotting funcion for sivs object
+#' A plotting function for sivs object
 #'
 #' @description A function to plot the object of the sivs function.
 #'
-#' @param object The object that is produced by the sivs function.
+#' @param x The object that is produced by the sivs function.
 #' @param type Which plot do you want to have. Acceptable values are "frequency" and "coef" at the moment.
 #' @param suggestion_strictness The strictness value that indicates how much the thresholds should be strict. For more details visit help page of `suggest()` function. If you want ru suppress the suggestion on the plot, set this to NULL.
 #' @param ... The other argument you might want to pass to each plot.
@@ -17,23 +17,23 @@
 #' \dontrun{
 #' # to see all plots
 #' layout(mat = matrix(c(1,2,3,3), nrow = 2, byrow = T))
-#' plot(object = sivs_object)
+#' plot(x = sivs_object)
 #' layout(1)
 #' 
 #' # to plot only the Recursive Feature Elimination (rfe) results
-#' plot(object = sivs_object, type = "rfe")
+#' plot(x = sivs_object, type = "rfe")
 #' 
 #' # suppress suggestion on rfe plot
-#' plot(object = sivs_object, type = "rfe", suggestion_strictness = NULL)
+#' plot(x = sivs_object, type = "rfe", suggestion_strictness = NULL)
 #' }
 #' 
 #' @import graphics
 #' @import stats
 #' @import utils
 #'
-#' @method plot sivs
+#' @export
 
-plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
+plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
                         suggestion_strictness = c(0.01, 0.05), ...){
     
     #-------[ initialize some variables ]-------#
@@ -48,9 +48,9 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
     
     #-------[ check input ]-------#
     {
-        #-------[ object ]-------#
+        #-------[ x ]-------#
         {
-            if(!is.sivs(object = object)){
+            if(!is.sivs(object = x)){
                 stop("This function can only handle an object from type \"sivs\".")
             }
         }
@@ -89,13 +89,13 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
         #-------[ sivs call ]-------#
         {
             # extract the call string and turn it into a named list
-            tmp.call <- as.list(parse(text = object$run.info$call)[[1]])[-1]
+            tmp.call <- as.list(parse(text = x$run.info$call)[[1]])[-1]
         }
         
         
         #-------[ intercept ]-------#
         {
-            # if the 'intercept' argument was defined by 
+            # if the 'intercept' argument was defined by
             if(is.element("intercept", names(tmp.call))){
                 # extract the value of the 'intercept' and convert it into logical
                 intercept <- as.character(x = as.character(tmp.call$intercept), as.is = T)
@@ -118,7 +118,7 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
         if(is.element("frequency", type)){
             
             # extract the ranked features and put them in increasing order because of the boxplot
-            tmp.selection.freq <- sort(x = object$selection.freq, decreasing = FALSE)
+            tmp.selection.freq <- sort(x = x$selection.freq, decreasing = FALSE)
             
             # if intercept was defined as FALSE and still intercept was among the features
             if((!intercept) & is.element("(Intercept)", names(tmp.selection.freq))){
@@ -138,12 +138,12 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
                     ...)
             
             
-            # valid.iterations <- sum(!sapply(lapply(object$iterative.res, "[[", "coef"), is.logical))
-            # total.iterations <- length(object$iterative.res)
+            # valid.iterations <- sum(!sapply(lapply(x$iterative.res, "[[", "coef"), is.logical))
+            # total.iterations <- length(x$iterative.res)
             
             axis(side = 3,
-                    # at = seq(from = 0, to = 1, by = 0.1) * length(object$iterative.res),
-                    at = seq(from = 0, to = 1, by = 0.1) * sum(!sapply(lapply(object$iterative.res, "[[", "coef"), is.logical)),
+                    # at = seq(from = 0, to = 1, by = 0.1) * length(x$iterative.res),
+                    at = seq(from = 0, to = 1, by = 0.1) * sum(!sapply(lapply(x$iterative.res, "[[", "coef"), is.logical)),
                     labels = paste0(seq(from = 0, to = 100, by = 10), "%"),
                     lty = 2,
                     cex.axis = 0.7)
@@ -154,7 +154,7 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
         
         if(is.element("coef", type)){
             
-            clean.iterative.res <- object$iterative.res[!sapply(lapply(object$iterative.res, "[[", "coef"), is.logical)]
+            clean.iterative.res <- x$iterative.res[!sapply(lapply(x$iterative.res, "[[", "coef"), is.logical)]
             
             # extract the coefficients and put them in a dataframe
             coef.df <- Reduce(function(...){ merge(...,
@@ -201,7 +201,7 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
         
         if(is.element("rfe", type)){
             # make sure the rfe result is part of the final object
-            if(!is.element("rfe", names(object))){
+            if(!is.element("rfe", names(x))){
                 ## This can happen if the sample size of the data that was
                 ## provided to sivs was so small that sivs has skipped going
                 ## through the rfe step.
@@ -210,21 +210,21 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
                 warning("The provided object does not have rfe section and as the result the rfe cannot be plotted.")
             }else{
                 # get the vimp of those that have vimp more than zero, then sort them increasingly
-                tmp.vimp <- sort(object$vimp[object$vimp > 0], decreasing = FALSE)
+                tmp.vimp <- sort(x$vimp[x$vimp > 0], decreasing = FALSE)
                 
                 
                 # remove the last two items in the vimp since they have not been excluded in rfe step due to being the most significant features
                 tmp.vimp <- head(x = tmp.vimp, n = -2)
                 
                 
-                # extract the AUCs from the 
-                tmp.rfe <- lapply(object$rfe,
+                # extract the AUCs from the
+                tmp.rfe <- lapply(x$rfe,
                                     function(x){
                                         sapply(x, "[[", "auc")
                                     })
                 
                 # get which rfe runs converged (a logical vector)
-                valid.rfe <- sapply(object$rfe, function(x){
+                valid.rfe <- sapply(x$rfe, function(x){
                     any(!is.na(sapply(x, "[[", "coef")))
                 })
                 
@@ -251,8 +251,8 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
                         col.axis = "steelblue3")
                 # tcl control the length of the tick marks. positive values will
                 #     make the tick being drawn inside the plot.
-                # mgp takes three values, the first one control how much line 
-                #     between plot and axis title the second between plot and 
+                # mgp takes three values, the first one control how much line
+                #     between plot and axis title the second between plot and
                 #     axis labels and the third between plot and axis line.
                 mtext(side = 4, text = "Variable Importance Score", col = "steelblue3", cex = 0.8, line = 2)
                 par(new = TRUE)
@@ -279,7 +279,7 @@ plot.sivs <- function(object, type = c("frequency", "coef", "rfe"),
                     # if user have asked for specific strictness to be plotted over
                     if(!is.null(suggestion_strictness)){
                         # extract the median of AUCs from the sivs object
-                        tmp.median.AUROCs <- sapply(object$rfe,
+                        tmp.median.AUROCs <- sapply(x$rfe,
                                                 function(x){
                                                     median(sapply(x, "[[", "auc"))
                                                 })
