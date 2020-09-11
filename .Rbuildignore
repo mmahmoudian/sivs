@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+\.git
+\.RData$
+\.Rhistory$
+\.Rprofile$
+^README\.md$
+^LICENSE$
+^Makefile$
+^\.travis\.yml$
