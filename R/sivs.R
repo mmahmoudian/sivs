@@ -63,9 +63,6 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                  return.roc = FALSE, return.sessionInfo = TRUE,
                  lib.paths = .libPaths(), ...){
     
-    # ## to bypass a note in R CMD check about i being undefined global variable
-    # ## https://nathaneastwood.github.io/2019/08/18/no-visible-binding-for-global-variable/
-    # if(getRversion() >= "2.15.1")  utils::globalVariables(c("i"))
 
     #-------[ initialize some variables ]-------#
     {
@@ -88,6 +85,12 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         sivs.internal.env <- new.env()
         
         
+        ## to bypass a note in R CMD check about i being undefined global variable
+        ## https://nathaneastwood.github.io/2019/08/18/no-visible-binding-for-global-variable/
+        #if(getRversion() >= "2.15.1")  utils::globalVariables(c("i"))
+        ## or alternatively:
+        ## https://github.com/Rdatatable/data.table/issues/850
+        i <- NULL
     }
     
     
