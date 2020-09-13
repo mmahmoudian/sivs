@@ -9,13 +9,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-# bypass CRAN's error on number of used cores!
-chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
-
-if (nzchar(chk) && chk == "TRUE") {
-    # use 2 cores in CRAN/Travis/AppVeyor
-    options(mc.cores=2)
-}
+#save(list = c("train_x", "train_y", "validation_x", "validation_y", "sivs_obj"), file = "vignette_v0.2.1.RData")
+load(url("https://seafile.utu.fi/f/13e0ef294b374549b499/?dl=1"))
 ```
 
 # Tutorial of basic Usage
@@ -29,20 +24,9 @@ For the purpose of this simple tutorial, we use [Arcene Data Set](https://archiv
 > ARCENE's task is to distinguish cancer versus normal patterns from mass-spectrometric data.
 
 
-## Download dataset
-<!--
+## Download and read dataset
+
 ```r
-utils::download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/ARCENE/arcene_train.data", destfile = "arcene_train.data")
-utils::download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/ARCENE/arcene_train.labels", destfile = "arcene_train.labels")
-
-utils::download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/ARCENE/arcene_valid.data", destfile = "arcene_valid.data")
-utils::download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/arcene_valid.labels", destfile = "arcene_valid.labels")
-```
--->
-
-## Read dataset
-
-```{r}
 train_x <- read.csv(file = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/ARCENE/arcene_train.data", header = F, sep = " ", strip.white = T, blank.lines.skip = T, stringsAsFactors = F)
 train_y <- read.csv(file = "https://archive.ics.uci.edu/ml/machine-learning-databases/arcene/ARCENE/arcene_train.labels", header = F, sep = " ", strip.white = T, blank.lines.skip = T, stringsAsFactors = F)
 
@@ -81,29 +65,30 @@ knitr::kable(varhandle::var.info(regex = "_[xy]$"))
 
 ## Using SIVS
 
-Now we can run SIVS to get the most important features. Note that for the sake of making the vignette, the progressbar is set to FALSE and the verbosity has set to none so that the function does not print its progress.
+Now we can run SIVS to get the most important features. Note that for the sake of making the vignette, the progressbar is set to FALSE and the verbosity has set to none so that the function does not print its progress. It's worth noting that due to the nature of this feature selection method, running a high-dimensional data in SIVS would take time, therefore, the more CPU core you allocate to it, the faster it will do the job. The following would take about 19 minutes with 2 CPU cores (`parallel.cores = 2`) and it will be much faster if you use `parallel.cores = "grace"` which will use all CPU cores except 1.
 
 ```r
 library("sivs")
 
-sivs_obj <- sivs::sivs(x = train_x,
+sivs_obj <- sivs::sivs(x = train_x,           # it should be a matrix or datafram with features as columns and samples as rows
                        y = factor(train_y),
-                       verbose = "none",
-                       progressbar = FALSE)
+                       verbose = "none",      # This is for demonstration, you leave the verbose to be "general"
+                       progressbar = FALSE)   # This is for demonstration, you leave the progressbar on
 ```
 
 By providing factor with 2 levels, we are implying to use binomial. Alternatively, you can define `family = "binomial"` and it will be passed to internal method (which the default is glmnet).
 
 ```{r run_sivs, include = FALSE}
+library("sivs")
 # bypass CRAN's error on number of used cores! Apparently on CRAN you have limit your code to only 2 cores!
-chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
-
-if (nzchar(chk) && chk == "TRUE") {
-    # use 2 cores in CRAN/Travis/AppVeyor
-    sivs_obj <- sivs::sivs(x = train_x, y = factor(train_y), verbose = "none", progressbar = FALSE, parallel.cores = 2)
-}else{
-    sivs_obj <- sivs::sivs(x = train_x, y = factor(train_y), verbose = "none", progressbar = FALSE)
-}
+#chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_", "")
+#
+#if ((nzchar(chk) && chk == "TRUE") || (!identical(Sys.getenv("NOT_CRAN", unset = "true"), "true"))) {
+#    # use 2 cores in CRAN/Travis/AppVeyor
+#    sivs_obj <- sivs::sivs(x = train_x, y = factor(train_y), verbose = "none", progressbar = FALSE, parallel.cores = 2)
+#}else{
+#    sivs_obj <- sivs::sivs(x = train_x, y = factor(train_y), verbose = "none", progressbar = FALSE)
+#}
 ```
 
 
