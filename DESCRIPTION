@@ -1,6 +1,6 @@
 Package: sivs
 Type: Package
-Title: Seed Independent Variable selection
+Title: Seed Independent Variable Selection
 Version: 0.2.1
 Date: 2020-09-11
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
@@ -22,9 +22,10 @@ Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
 Imports: doParallel, parallel, foreach, glmnet, pROC, varhandle, utils
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    markdown
 Description: An iterative feature selection method (manuscript submitted) that
-    internally utilizes various Machine Learning methods that have embeded
+    internally utilizes various Machine Learning methods that have embedded
     feature reduction in order to shrink down the feature space into a small
     and yet robust set.
 License: GPL-3
