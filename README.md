@@ -1,4 +1,4 @@
-# sivs
+#  Seed Independent Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="100" align="right" />
 
 > **The manuscript of this work is under journal review**
 
