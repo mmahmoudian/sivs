@@ -1,4 +1,7 @@
-#  Seed Independent Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="100" align="right" />
+![R CMD check](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check/badge.svg)
+![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
+
+#  Seed Independent Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
 
 > **The manuscript of this work is under journal review**
 
