@@ -1,6 +1,6 @@
 # This is my own action yaml file and it is NOT TESTED. Use at your own risk!
 
-name: R build check (no manual, no vignette, no cran)
+name: R CMD check
 
 on:
   push:
