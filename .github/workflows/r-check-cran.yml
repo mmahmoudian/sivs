@@ -1,6 +1,6 @@
 # This is my own action yaml file and it is NOT TESTED. Use at your own risk!
 
-name: R CMD check
+name: R CMD check --as-cran
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
         shell: Rscript {0}
       - name: Running make - documentation
         run: make clean docs
-      - name: Running make - building without manual
-        run: make build-noman
-      - name: Running make - check without CRAN
-        run: make check
+      - name: Running make - building
+        run: make build
+      - name: Running make - check with CRAN
+        run: make check-cran
