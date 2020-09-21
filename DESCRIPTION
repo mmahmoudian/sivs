@@ -1,7 +1,7 @@
 Package: sivs
 Type: Package
 Title: Seed Independent Variable Selection
-Version: 0.2.1
+Version: 0.2.2
 Date: 2020-09-11
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),

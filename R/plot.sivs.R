@@ -110,6 +110,10 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
                 intercept <- TRUE
             }
         }
+        
+        # make sure we backup user's par options
+        oldpar <- par(no.readonly = TRUE)
+        on.exit(par(oldpar))
     }
     
     
