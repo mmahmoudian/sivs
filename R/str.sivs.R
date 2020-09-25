@@ -52,7 +52,7 @@ str.sivs <- function(object,
     
     #-------[ internal functions ]-------#
     {
-        func_explore <- function(lst, layer = "", showThreeDots = F){
+        func_explore <- function(lst, layer = "", showThreeDots = FALSE){
             
             for(i in seq_len(length(lst))){
                 
@@ -84,14 +84,14 @@ str.sivs <- function(object,
                 
                 # create indentation layer to be used and passed to the next recusion
                 tmp_layer <- paste0(layer,
-                                    ifelse((i == length(lst)) & (showThreeDots == F),
+                                    ifelse((i == length(lst)) & (showThreeDots == FALSE),
                                             "    ",
                                             "\u2502   "))
                 
                 
                 # genaret the output text
                 output <- paste0(layer,
-                                    ifelse((i == length(lst)) & (showThreeDots == F),
+                                    ifelse((i == length(lst)) & (showThreeDots == FALSE),
                                         "\u2514\u2500\u2500 ",
                                         "\u251C\u2500\u2500 "),
                                     "[", ifelse(is.null(names(lst)[i]), "", names(lst)[i]), "]: ",
@@ -107,12 +107,12 @@ str.sivs <- function(object,
                 # if the class of the object of this iteration is among those that we should dive into
                 if(any(is.element(class(lst[[i]]), init_accaptable_classes_object))){
                     # recursion
-                    func_explore(head(x = lst[[i]], n = max_leaves), layer = tmp_layer, showThreeDots = ifelse(length(lst[[i]]) > max_leaves, T, F))
+                    func_explore(head(x = lst[[i]], n = max_leaves), layer = tmp_layer, showThreeDots = ifelse(length(lst[[i]]) > max_leaves, TRUE, FALSE))
                     
                 }
                 
                 # add extra space between lists sith leaves
-                if((i == length(lst)) & (showThreeDots == F)){
+                if((i == length(lst)) & (showThreeDots == FALSE)){
                     if(nchar(trimws(layer)) != 0){
                         cat(layer, "\n")
                     }

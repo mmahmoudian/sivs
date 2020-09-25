@@ -85,13 +85,13 @@ coef.sivs <- function(object, step = "iterative.res", ...){
             
             coef_df <- Reduce(function(...){ merge(...,
                                                     by = "names",
-                                                    all = T) },
+                                                    all = TRUE) },
                                 sapply(names(object[[step]]),
                                         FUN = function(item) {
                                             temp <- object[[step]][[item]]$coef
                                             
                                             if(is.logical(temp)){
-                                                temp <- data.frame(names = NA, col2 = NA, stringsAsFactors = F)
+                                                temp <- data.frame(names = NA, col2 = NA, stringsAsFactors = FALSE)
                                             }
                                             
                                             colnames(temp)[2] <- paste0("coef.", item)
@@ -104,14 +104,14 @@ coef.sivs <- function(object, step = "iterative.res", ...){
         }else{
             coef_df <- Reduce(function(...){ merge(...,
                                                     by = "names",
-                                                    all = T) },
+                                                    all = TRUE) },
                                 sapply(names(object[[step]][[substep]]),
                                         FUN = function(item) {
                                             
                                             temp <- object[[step]][[substep]][[item]]$coef
                                             
                                             if(is.logical(temp)){
-                                                temp <- data.frame(names = NA, col2 = NA, stringsAsFactors = F)
+                                                temp <- data.frame(names = NA, col2 = NA, stringsAsFactors = FALSE)
                                             }
                                             
                                             colnames(temp)[2] <- paste0("coef.", item)

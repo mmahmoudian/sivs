@@ -16,7 +16,7 @@
 #' @examples
 #' \dontrun{
 #' # to see all plots
-#' layout(mat = matrix(c(1,2,3,3), nrow = 2, byrow = T))
+#' layout(mat = matrix(c(1,2,3,3), nrow = 2, byrow = TRUE))
 #' plot(x = sivs_object)
 #' layout(1)
 #' 
@@ -98,7 +98,7 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
             # if the 'intercept' argument was defined by
             if(is.element("intercept", names(tmp.call))){
                 # extract the value of the 'intercept' and convert it into logical
-                intercept <- as.character(x = as.character(tmp.call$intercept), as.is = T)
+                intercept <- as.character(x = as.character(tmp.call$intercept), as.is = TRUE)
                 
                 # if there was an issue converting the 'intercept' to logical
                 if(is.na(intercept)){
@@ -163,7 +163,7 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
             # extract the coefficients and put them in a dataframe
             coef.df <- Reduce(function(...){ merge(...,
                                                     by = "names",
-                                                    all = T) },
+                                                    all = TRUE) },
                                 sapply(names(clean.iterative.res),
                                         FUN = function(item) {
                                             temp <- clean.iterative.res[[item]]$coef
@@ -184,7 +184,7 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
             # transpose the dataframe to have the features as columns
             coef.df <- t(coef.df)
             
-            coef.df <- coef.df[, order(apply(coef.df, 2, median), decreasing = T)]
+            coef.df <- coef.df[, order(apply(coef.df, 2, median), decreasing = TRUE)]
             
             # there is a chance that the user has defined plot title under
             # the names "main" or "title". if so use that, otherwise use a

@@ -175,7 +175,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             ## 
             ## Arguments:
             ##   x:  A numeric vector
-            as.numeric((x - mean(x = x, na.rm = T)) / sd(x = x, na.rm = T))
+            as.numeric((x - mean(x = x, na.rm = TRUE)) / sd(x = x, na.rm = TRUE))
         }
         
         
@@ -207,10 +207,10 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             # get the unique groupIDs and shuffle them
             set.seed(seed)
-            groupIDs <- sample(x = unique(grouping), size = length(unique(grouping)), replace = F)
+            groupIDs <- sample(x = unique(grouping), size = length(unique(grouping)), replace = FALSE)
             
             # create a vector of folds for each of the patients
-            folds <- cut(seq_along(groupIDs), k, labels = F)
+            folds <- cut(seq_along(groupIDs), k, labels = FALSE)
             
             # assign fold numbers to each sample of each patient
             collective_folds <- rep(NA, length(grouping))
@@ -339,7 +339,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         {
             func.cat("\t| iter.count", new.line = FALSE)
             
-            if((length(iter.count) != 1) | any(!varhandle::check.numeric(v = iter.count, only.integer = T))){
+            if((length(iter.count) != 1) | any(!varhandle::check.numeric(v = iter.count, only.integer = TRUE))){
                 stop("The value provided for the argument 'iter.count' should be a vector of length 1 containing a positive integer number.")
             }else{
                 # convert to numeric and change the number to positive just in case user makes a mistake
@@ -353,7 +353,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         {
             func.cat("\t| nfold", new.line = FALSE)
             
-            if((length(nfolds) != 1) | any(!varhandle::check.numeric(v = nfolds, only.integer = T))){
+            if((length(nfolds) != 1) | any(!varhandle::check.numeric(v = nfolds, only.integer = TRUE))){
                 stop("The value provided for the argument 'nfolds' should be a vector of length 1 containing a positive integer number.")
             }else{
                 # convert to numeric and change the number to positive just in case user makes a mistake
@@ -403,14 +403,14 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                     # complain
                     stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
                 # if the value is not an integer and also is not any of the acceptable values
-                }else if((!varhandle::check.numeric(v = parallel.cores, only.integer = T)) &
+                }else if((!varhandle::check.numeric(v = parallel.cores, only.integer = TRUE)) &
                             (!is.element(tolower(parallel.cores), c(acceptable.parallel.cores)))){
                     # complain
                     stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
                 }
                 
                 # if parallel.cores is numeric
-                if(varhandle::check.numeric(v = parallel.cores, only.integer = T)){
+                if(varhandle::check.numeric(v = parallel.cores, only.integer = TRUE)){
                     # convert to numeric and change the number to positive just in case user makes a mistake
                     parallel.cores <- as.numeric(abs(parallel.cores))
                     
@@ -974,7 +974,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         
         coef.df <- Reduce(function(...){ merge(...,
                                                 by = "names",
-                                                all = T) },
+                                                all = TRUE) },
                             sapply(names(clean.iterative.res),
                                     FUN = function(item) {
                                         temp <- clean.iterative.res[[item]]$coef
@@ -1012,13 +1012,13 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         # calculate the absolute value of median of coefficients of each feature
         tmp.vimp.coef.abs.median <- apply(coef.df, 1, function(r){
             r[r==0] <- NA
-            abs(median(x = r, na.rm = T))
+            abs(median(x = r, na.rm = TRUE))
             })
         
         # calculate the inter quertile range for coefficinets of each feature
         tmp.vimp.coef.IQR <- apply(coef.df, 1, function(r){
             r[r==0] <- NA
-            IQR(x = r, na.rm = T)
+            IQR(x = r, na.rm = TRUE)
         })
         
         # check if the coefficients signs changes for each of the features
