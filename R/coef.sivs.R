@@ -8,6 +8,10 @@
 #' step ("iterative.res" or "rfe"), or step$subsetp (e.g "rfe$baseline").
 #' @param ... potential further arguments (required for Method/Generic reasons).
 #' 
+#' @return The function returns a data.frame that has features as rows and
+#' different runs as columns, with the addition of the first column which
+#' contains the feature name.
+#' 
 #' @examples
 #' \dontrun{
 #' # getting the coefficients of features for the baseline runs in rfe
@@ -44,7 +48,7 @@ coef.sivs <- function(object, step = "iterative.res", ...){
             }
             
             # make sure the step has length of 1
-            if(length(step)>1){
+            if(length(step) > 1){
                 stop("The value provided for argument `step` should be a character vector of length 1.")
             }
             

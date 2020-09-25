@@ -13,6 +13,9 @@
 #' are differnt from the presented "Number of Features Left" in the
 #' rfe plot by 1.
 #' 
+#' @return Does not return anything. This function is only used for plotting
+#' and is not meant to return any value.
+#' 
 #' @examples
 #' \dontrun{
 #' # to see all plots

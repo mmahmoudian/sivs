@@ -16,6 +16,9 @@
 #' larger than this value, they will be truncated. Default is the terminal size
 #' that is retuned by R.
 #' @param ... potential further arguments (required for Method/Generic reasons).
+#' 
+#' @return The function uses `cat` to output general structure of sivs object
+#' in human readable format in a tree-like structure.
 #'
 #' @export
 
