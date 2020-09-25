@@ -135,6 +135,6 @@ str.sivs <- function(object,
         func_explore(object)
         
         # print any comment the object has
-        cat("\ncomment: ", ifelse(is.null(comment(object)), "<empty>", comment(object)))
+        cat("\ncomment: ", ifelse(is.null(comment(object)), "<empty>", comment(object)), "\n")
     }
 }
