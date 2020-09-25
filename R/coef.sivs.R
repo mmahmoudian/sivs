@@ -1,8 +1,8 @@
 #' Extract Coefficients from sivs object
-#'
+#' 
 #' @description A function to extract the coefficients of "iterative.res" step
 #' or any part of "rfe" such as "sivs_object$rfe$baseline" from a sivs object.
-#'
+#' 
 #' @param object An object of class "sivs"
 #' @param step  A a character string of length 1. It should either specify the
 #' step ("iterative.res" or "rfe"), or step$subsetp (e.g "rfe$baseline").
@@ -104,7 +104,7 @@ coef.sivs <- function(object, step = "iterative.res", ...){
                                         simplify = FALSE))
             
             
-            # check if user have specified substep (basically if user wants to operate in rfe)
+        # check if user have specified substep (basically if user wants to operate in rfe)
         }else{
             coef_df <- Reduce(function(...){ merge(...,
                                                     by = "names",
@@ -124,10 +124,14 @@ coef.sivs <- function(object, step = "iterative.res", ...){
                                         simplify = FALSE))
         }
         
-        # remove the row that has NA in the feature name (this happens when the ML code annot converge and we have to insert NA as coefficient)
-        coef_df <- coef_df[-which(is.na(coef_df[, "names"])), ]
+        ## Remove the row that has NA in the feature name (this happens when the
+        ## ML code cannot converge and we have to insert NA as coefficient)
+        if(any(is.na(coef_df[, "names"]))){
+            coef_df <- coef_df[-which(is.na(coef_df[, "names"])), ]
+        }
+        
         
         return(coef_df)
     }
-    
+
 }
