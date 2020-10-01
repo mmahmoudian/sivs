@@ -3,7 +3,7 @@
 #' @description A function to plot the object of the sivs function.
 #'
 #' @param x The object that is produced by the sivs function.
-#' @param type Which plot do you want to have. Acceptable values are "frequency" and "coef" at the moment.
+#' @param type Which plot do you want to have. Acceptable values are "frequency", "coef", and "rfe".
 #' @param suggestion_strictness The strictness value that indicates how much the thresholds should be strict. For more details visit help page of `suggest()` function. If you want ru suppress the suggestion on the plot, set this to NULL.
 #' @param ... The other argument you might want to pass to each plot.
 #'
@@ -29,6 +29,29 @@
 #' # suppress suggestion on rfe plot
 #' plot(x = sivs_object, type = "rfe", suggestion_strictness = NULL)
 #' }
+#' 
+#' ## WORKING EXAMPLE
+#' ## Note that this example does not logically make sense as iris data has only
+#' ## 4 columns and there is no need for SIVS to take care of feature selection
+#' ## therefore this example is only here for testing purposes.
+#' 
+#' tmp <- subset(x = iris, subset = Species != "setosa")
+#' 
+#' tmp <- varhandle::unfactor(tmp)
+#' 
+#' sivs_obj <- sivs(x = tmp[, c("Sepal.Length", "Sepal.Width",
+#'                              "Petal.Length", "Petal.Width")],
+#'                  y = factor(tmp$Species),
+#'                  family = "binomial",
+#'                  verbose = "detailed",
+#'                  progressbar = FALSE,
+#'                  nfolds = 3,
+#'                  parallel.cores = FALSE,
+#'                  iter.count = 20)
+#' plot(sivs_obj, type = "frequency")
+#' plot(sivs_obj, type = "coef")
+#' plot(sivs_obj, type = "rfe")
+#' 
 #' 
 #' @import graphics
 #' @import stats

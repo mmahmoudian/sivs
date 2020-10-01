@@ -24,7 +24,28 @@
 #' # get the suggested features and also plot it with strictness of 0.01
 #' suggest(object = sivs_object, strictness = 0.01, plot = TRUE)
 #' }
-#'
+#' 
+#' ## WORKING EXAMPLE
+#' ## Note that this example does not logically make sense as iris data has only
+#' ## 4 columns and there is no need for SIVS to take care of feature selection
+#' ## therefore this example is only here for testing purposes.
+#' 
+#' tmp <- subset(x = iris, subset = Species != "setosa")
+#' 
+#' tmp <- varhandle::unfactor(tmp)
+#' 
+#' sivs_obj <- sivs(x = tmp[, c("Sepal.Length", "Sepal.Width",
+#'                              "Petal.Length", "Petal.Width")],
+#'                  y = factor(tmp$Species),
+#'                  family = "binomial",
+#'                  verbose = "detailed",
+#'                  progressbar = FALSE,
+#'                  nfolds = 3,
+#'                  parallel.cores = FALSE,
+#'                  iter.count = 20)
+#' 
+#' suggest(sivs_obj)
+#' 
 #' @export
 
 suggest <- function(object, strictness = 0.01, plot = FALSE){

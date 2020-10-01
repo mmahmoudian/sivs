@@ -18,6 +18,28 @@
 #' coef(object = sivs_object, step = "rfe$baseline")
 #' }
 #' 
+#' ## WORKING EXAMPLE
+#' ## Note that this example does not logically make sense as iris data has only
+#' ## 4 columns and there is no need for SIVS to take care of feature selection
+#' ## therefore this example is only here for testing purposes.
+#' 
+#' tmp <- subset(x = iris, subset = Species != "setosa")
+#' 
+#' tmp <- varhandle::unfactor(tmp)
+#' 
+#' sivs_obj <- sivs(x = tmp[, c("Sepal.Length", "Sepal.Width",
+#'                              "Petal.Length", "Petal.Width")],
+#'                  y = factor(tmp$Species),
+#'                  family = "binomial",
+#'                  verbose = "detailed",
+#'                  progressbar = FALSE,
+#'                  nfolds = 3,
+#'                  parallel.cores = FALSE,
+#'                  iter.count = 20)
+#' 
+#' coef(sivs_obj)
+#' 
+#' 
 #' @export
 
 
