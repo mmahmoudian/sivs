@@ -7,12 +7,11 @@ SHELL = /bin/sh
 PKGNAME := $(shell sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKGVERS := $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKGSRC  := $(shell basename "`pwd`")
-
+TODAY   := $(shell date "+%F")
 
 all: docs build check install
 
 all-cran: docs build check-cran install
-
 
 deps:
 	tlmgr install pgf preview xcolor;\
@@ -20,6 +19,7 @@ deps:
 	Rscript -e 'if (!is.element("Rd2roxygen", installed.packages()[, 1])){ install.packages("Rd2roxygen", repos="http://cran.rstudio.com") }';
 
 build:
+	sed -i -E "s/^Date: [0-9]{4}-[0-9]{2}-[0-9]{2}/Date: $(TODAY)/m" DESCRIPTION
 	cd ..;\
 	R CMD build $(PKGSRC)
 	
