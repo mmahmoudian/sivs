@@ -2,11 +2,11 @@
 ![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
 ![download per month](https://cranlogs.r-pkg.org/badges/sivs)
 
-#  Seed Independent Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
+#  Stable Iterative Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
 
 > **The manuscript of this work is under journal review**
 
-SIVS is an acronym of Seed Independent Variable Selection, and as the name suggests is a feature selection method that is robust to the variations that cross-validation can have on various methods with embedded feature selection. This method hired an iterative approach and  internally utilizes varius Machine Learning methods which have embedded feature reduction in order to shrink down the feature space into a small and yet robust set. 
+SIVS is an acronym of Stable Iterative Variable Selection, and as the name suggests is a feature selection method that is robust to the variations that cross-validation can have on various methods with embedded feature selection. This method hired an iterative approach and  internally utilizes varius Machine Learning methods which have embedded feature reduction in order to shrink down the feature space into a small and yet robust set. 
 
 
 ## Installation

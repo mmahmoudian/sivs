@@ -1,6 +1,6 @@
-#' Seed Independent Variable Selection
+#' Stable Iterative Variable Selection
 #'
-#' @description The name is an acronym for Seed Independent Variable Selection.
+#' @description The name is an acronym for Stable Iterative Variable Selection.
 #' This function will iteratively run a machine learning method that can
 #' incorporate a shrinkage method using multiple random seeds in order to find
 #' the smallest set of features that can robustly be predictive.

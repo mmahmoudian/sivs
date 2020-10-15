@@ -1,6 +1,6 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Seed Independent Variable Selection (SIVS)}
+%\VignetteIndexEntry{Stable Iterative Variable Selection (SIVS)}
 -->
 
 ```{r, include = FALSE}
@@ -17,7 +17,7 @@ load(url("https://seafile.utu.fi/f/13e0ef294b374549b499/?dl=1"))
 
 ## Description
 
-Seed Independent Variable Selection (SIVS) is a feature selection method that wraps machine learning methods with internal feature selection (e.g shrinkage methods such as LASSO). In this vignette we demonstrate simple usage of this method. We would like to encourage users to always stay critical of the results they get and not use SIVS as a blackbox method.
+Stable Iterative Variable Selection (SIVS) is a feature selection method that wraps machine learning methods with internal feature selection (e.g shrinkage methods such as LASSO). In this vignette we demonstrate simple usage of this method. We would like to encourage users to always stay critical of the results they get and not use SIVS as a blackbox method.
 
 For the purpose of this simple tutorial, we use [Arcene Data Set](https://archive.ics.uci.edu/ml/datasets/Arcene) which is a sample dataset to demonstrate feature selection methods via a binary classification. As the webpage states:
 

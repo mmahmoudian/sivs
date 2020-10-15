@@ -1,8 +1,8 @@
 Package: sivs
 Type: Package
-Title: Seed Independent Variable Selection
-Version: 0.2.2
-Date: 2020-09-11
+Title: Stable Iterative Variable Selection
+Version: 0.2.3
+Date: 2020-10-15
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
                     email = "mehrad.mahmoudian@utu.fi",
