@@ -70,7 +70,7 @@ Now we can run SIVS to get the most important features. Note that for the sake o
 ```r
 library("sivs")
 
-sivs_obj <- sivs::sivs(x = train_x,           # it should be a matrix or datafram with features as columns and samples as rows
+sivs_obj <- sivs::sivs(x = train_x,           # it should be a matrix or dataframe with features as columns and samples as rows
                        y = factor(train_y),
                        verbose = "none",      # This is for demonstration, you leave the verbose to be "general"
                        progressbar = FALSE)   # This is for demonstration, you leave the progressbar on
