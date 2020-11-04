@@ -33,6 +33,7 @@ docs:
 
 install:
 	cd ..;\
+	R CMD REMOVE $(PKGNAME)_$(PKGVERS).tar.gz
 	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
 
 check:
