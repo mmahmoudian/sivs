@@ -19,6 +19,7 @@
 #' @param return.roc Logical. Whether the ROC object for each iterative run should be returned. Having the fits in the final object would significantly increase the final object size. Default is FALSE.
 #' @param return.sessionInfo Logical. Whether the utils::sessionInfo() be included in the final object. This is useful for reproducibility purposes. Default is TRUE.
 #' @param lib.paths A character vector that contains the paths that the dependency libraries are in it. REMEMBER to set this if you are using packrat.
+#' @param debug.mode Whether or not the debug mode should be enabled.
 #' @param ... Other parameters to be passed to the training method. For example the value of alpha in glmnet.
 #' 
 #' @return An object with S3 class "sivs".
@@ -80,7 +81,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                  parallel.cores = "grace", progressbar = TRUE,
                  verbose = "general", return.fits = FALSE,
                  return.roc = FALSE, return.sessionInfo = TRUE,
-                 lib.paths = .libPaths(), ...){
+                 lib.paths = .libPaths(), debug.mode = FALSE, ...){
     
 
     #-------[ initialize some variables ]-------#
@@ -170,7 +171,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             ##                  the larger verbose value needed for showing
             ##                  the message
             ##   
-            ##  new.line:     Logical. Whether the "\n" should be appended
+            ##   new.line:    Logical. Whether the "\n" should be appended
             ##                  to the end of the text.
             
             # # find verbose variable parent generation position (this is useful to be dunamic since this function is being used in different levels of the code)
@@ -256,9 +257,9 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 
                 # convert the verbose value to numerical representative (minimum accpetable importance of the reporting)
                 verbose <- switch(verbose,
-                                    detailed = 1,
-                                    general = 2,
-                                    none = Inf)
+                                  detailed = 1,
+                                  general = 2,
+                                  none = Inf)
                 
                 # add the variable into our internal environment
                 assign(x = "verbose",
@@ -267,7 +268,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             }
         }
         
-        func.cat("Checking input arguments")
+        func.cat("Checking input arguments", importance = 2)
         
         #-------[ formula ]-------# >>>>>>> should be removed if we are not going to use formula <<<<<<<
         {
@@ -285,11 +286,11 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         {
             func.cat("\t| x", new.line = FALSE)
             
-            if(!is.element(class(x), c("matrix", "data.frame"))){
+            if(!inherits(x, c("matrix", "data.frame"))){
                 stop("The input for the 'x' argument should be matrix or dataframe.")
             }else{
                 # make sure the data is always data.frame when we begin the process
-                x <- as.data.frame(x)
+                x <- as.data.frame(x, stringsAsFactors = FALSE)
             }
             
             # make sure that the provided data has at least dimension of 2 by 2
@@ -305,7 +306,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             func.cat("\t| y", new.line = FALSE)
             
             # if the y is a vector
-            if(is.element(class(y), acceptable.y.classes)){
+            if(inherits(y, acceptable.y.classes)){
                 # special checks for class Surv
                 if(class(y) == "Surv"){
                     # check if the x and y have the same length
@@ -400,10 +401,9 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 if(length(unique(sample.grouping))<2){
                     stop('The object provided for `sample.grouping` should have at least two groups! Check the documentation by typing:\n?sivs')
                 }
-                
-                
-                func.cat("              [OK]")
             }
+            
+            func.cat("[OK]")
         }
         
         #-------[ parallel.cores ]-------#
@@ -495,6 +495,17 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             func.cat("     [OK]")
         }
+
+        #-------[ debug.mode ]-------#
+        {
+            func.cat("\t| debug.mode", new.line = FALSE)
+            
+            if(!is.logical(debug.mode)){
+                stop("The value provided for the 'debug.mode' argument should be TRUE or FALSE")
+            }
+            
+            func.cat("     [OK]")
+        }
         
         #-------[ ... ]-------#
         {
@@ -517,7 +528,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
     
     #-------[ prepare x and y ]-------#
     {
-        func.cat("Prepare x and y")
+        func.cat("Prepare x and y", importance = 2)
         
         
         #-------[ check for unacceptable columns ]-------#
@@ -601,15 +612,18 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             # if user wanted to run the code in parallel
             if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-                func.cat("\t|\t| Registring Parallel backend:", importance = 2)
+                func.cat("\t|\t| Registring Parallel backend:")
                 
                 # set the seed in case the parallel package choose the cores in a random manner
                 set.seed(1)
                 
                 # create cluster in quite mode
                 invisible({
-                    #cl <- parallel::makeCluster(parallel.cores, outfile = tmpfile)
-                    cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                    if(debug.mode){
+                        cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                    }else{
+                        cl <- parallel::makeCluster(parallel.cores)
+                    }
                 })
                 
                 # register parallel backend
@@ -660,7 +674,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 
                 # if user wanted to run the code in parallel
                 if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-                    func.cat("\t|\t| Terminating the parallel backend", importance = 2)
+                    func.cat("\t|\t| Terminating the parallel backend")
                     
                     # close the backend parallel cluster
                     parallel::stopCluster(cl)
@@ -700,7 +714,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                             tmp.rows.to.be.removed <- as.numeric(which(apply(x, 1, function(tmp){any(is.na(tmp))})))
                             
                             ## for y variable
-                            if(is.element(class(y), c("Surv"))){
+                            if(inherits(y, c("Surv"))){
                                 y <- y[-tmp.rows.to.be.removed, ]
                             }else{
                                 y <- y[-tmp.rows.to.be.removed]
@@ -749,7 +763,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                         if(is.null(tmp.dots[["family"]])){
                             
                             # if the response is a vector
-                            if(is.element(class(y), c("factor"))){
+                            if(inherits(y, c("factor"))){
                                 if(length(levels(y)) == 2){
                                     tmp.dots[["family"]] <- "binomial"
                                 }else{
@@ -762,7 +776,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                                                 "of 'y' argument, the value of argument 'family' has set to \"", tmp.dots[["family"]], "\".")
                                 
                                 # if the class of response variable is survival
-                            }else if(is.element(class(y), c("Surv"))){
+                            }else if(inherits(y, c("Surv"))){
                                 tmp.dots[["family"]] <- "cox"
                             }else{
                                 stop("The chosen method is \"glmnet\" but the value of 'y' argument is not of class \"factor\" or \"Surv\".")
@@ -774,7 +788,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                     #-------[ make sure y is a vector and not of class Surv ]-------#
                     {
                         ## for y variable, if it is of class Surv
-                        if(is.element(class(y), c("Surv"))){
+                        if(inherits(y, c("Surv"))){
                             # only keep the binary outcome
                             y.response.status <- y[, 2]
                         }else{
@@ -794,15 +808,18 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         
         # if user wanted to run the code in parallel
         if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-            func.cat("\t| Registring Parallel backend:", importance = 2)
+            func.cat("\t| Registring Parallel backend:")
             
             # set the seed in case the parallel package choose the cores ina random manner
             set.seed(1)
             
             # create cluster in quite mode
             invisible({
-                # cl <- parallel::makeCluster(parallel.cores, outfile = tmpfile)
-                cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                if(debug.mode){
+                        cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                    }else{
+                        cl <- parallel::makeCluster(parallel.cores)
+                    }
             })
             
             # register parallel backend
@@ -965,7 +982,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         
         # if user wanted to run the code in parallel
         if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-            func.cat("\t| Terminating the parallel backend", importance = 2)
+            func.cat("\t| Terminating the parallel backend")
             
             # close the backend parallel cluster
             parallel::stopCluster(cl)
@@ -981,7 +998,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
     
     #-------[ generate the features ranking ]-------#
     {
-        func.cat("Generate the features ranking")
+        func.cat("Generate the features ranking", importance = 2)
         
         # based on the iterative.res, go through all the items in it, extract
         # the coef dataframe, fix the name of their coef column to also
@@ -1079,15 +1096,18 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             # if user wanted to run the code in parallel
             if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-                func.cat("\t| Registring Parallel backend:", importance = 2)
+                func.cat("\t| Registring Parallel backend:")
                 
                 # set the seed in case the parallel package choose the cores ina random manner
                 set.seed(1)
                 
                 # create cluster in quite mode
                 invisible({
-                    # cl <- parallel::makeCluster(parallel.cores, outfile = tmpfile)
-                    cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                    if(debug.mode){
+                        cl <- parallel::makeCluster(parallel.cores, outfile = "")
+                    }else{
+                        cl <- parallel::makeCluster(parallel.cores)
+                    }
                 })
                 
                 # register parallel backend
@@ -1107,10 +1127,10 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             # create a collective variable to store the warnings and errors
             rfe.catches <- data.frame(feature = character(),
-                                        seed    = numeric(),
-                                        warning = character(),
-                                        error   = character(),
-                                        stringsAsFactors = FALSE)
+                                      seed    = numeric(),
+                                      warning = character(),
+                                      error   = character(),
+                                      stringsAsFactors = FALSE)
             
             
             # iterate through the features
@@ -1119,9 +1139,13 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 # exclude features until after the currect feature and use the rest
                 tmp.features <- tmp.rfe.input.features[(match(j, tmp.rfe.input.features) + 1):length(tmp.rfe.input.features)]
                 
-                
-                func.cat("\t| Testing the", ifelse(j == "baseline", "", "effect of removing:"), j, paste0("\t\t [features left: ", length(tmp.features), "]"))
-                
+                func.cat("\t| Testing the ",
+                         paste0(ifelse(j == "baseline", "", "effect of removing: "),
+                                j,
+                                ifelse(j == "baseline", "           ", ""),
+                                "\t\t [features left: ",
+                                length(tmp.features),
+                                "]"))
                 
                 # if user wants to have progressbar
                 if(progressbar){
@@ -1276,7 +1300,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             # if user wanted to run the code in parallel
             if(!(is.null(parallel.cores) | all(parallel.cores == FALSE))){
-                func.cat("\t| Terminating the parallel backend", importance = 2)
+                func.cat("\t| Terminating the parallel backend")
                 
                 # close the backend parallel cluster
                 parallel::stopCluster(cl)
@@ -1328,6 +1352,11 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
     # perform invisible garbage collection
     invisible(capture.output(gc()))
     
+    if(return.sessionInfo){
+        tmp.sessionInfo <- utils::sessionInfo()
+    }else{
+        tmp.sessionInfo <- NULL
+    }
     
     # form the final object
     final.object <- list(iterative.res      = iterative.res,
@@ -1336,9 +1365,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                             rfe             = rfe.res,
                             rfe.issues      = rfe.catches,
                             run.info        = list(call = function.call,
-                                                sessionInfo = ifelse(test = return.sessionInfo,
-                                                                        yes = utils::sessionInfo(),
-                                                                        no = NULL)))
+                                                   sessionInfo = tmp.sessionInfo))
     
     # remove NULL items
     final.object <- final.object[!sapply(final.object, is.null)]
