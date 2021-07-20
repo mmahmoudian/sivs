@@ -30,6 +30,8 @@ Description: An iterative feature selection method (manuscript submitted) that
     and yet robust set.
 License: GPL-3
 URL: https://github.com/mmahmoudian/sivs
+URL: https://github.com/mmahmoudian/sivs,
+     https://doi.org/10.1093/bioinformatics/btab501
 BugReports: https://github.com/mmahmoudian/sivs/issues
 Encoding: UTF-8
 LazyData: true
