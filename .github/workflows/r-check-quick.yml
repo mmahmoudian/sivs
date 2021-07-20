@@ -14,24 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        r-version: [3.5, 3.6]
+        R: [ '4.1.0' ]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: install R-related dependencies
+      - uses: actions/checkout@master
+      - name: Install R-related dependencies
         run: |
           sudo apt-get install libcurl4-openssl-dev
           sudo apt-get install libgit2-dev
           sudo apt-get install libssh2-1-dev
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@ffe45a39586f073cc2e9af79c4ba563b657dc6e3
+      - name: Set up R ${{ matrix.R }}
+        uses: r-lib/actions/setup-r@v1
         with:
-          r-version: ${{ matrix.r-version }}
+          r-version: ${{ matrix.R }}
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "devtools"))
-          remotes::install_deps(dependencies = TRUE)
+          devtools::install_dev_deps(pkg = ".", dependencies = TRUE)
         shell: Rscript {0}
+      - name: Check dependencies with makefile
+        run: make deps
       - name: Running make - documentation
         run: make clean docs
       - name: Running make - building without manual
