@@ -1,3 +1,7 @@
+## 0.2.5
+
+There is no functional changes in the R codebase. All changes are in the documentation to add the citation information. If you are interested in knowing the changes in details, please read the git commits in the project's Github page.
+
 ## 0.2.4
 
 All the changes are minor and does not affect any of the numeric outcomes of the package.

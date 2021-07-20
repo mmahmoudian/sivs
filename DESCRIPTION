@@ -1,8 +1,8 @@
 Package: sivs
 Type: Package
 Title: Stable Iterative Variable Selection
-Version: 0.2.4
-Date: 2020-11-04
+Version: 0.2.5
+Date: 2021-07-20
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
                     email = "mehrad.mahmoudian@utu.fi",
@@ -29,7 +29,6 @@ Description: An iterative feature selection method (manuscript submitted) that
     feature reduction in order to shrink down the feature space into a small
     and yet robust set.
 License: GPL-3
-URL: https://github.com/mmahmoudian/sivs
 URL: https://github.com/mmahmoudian/sivs,
      https://doi.org/10.1093/bioinformatics/btab501
 BugReports: https://github.com/mmahmoudian/sivs/issues
