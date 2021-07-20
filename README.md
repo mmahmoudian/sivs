@@ -1,6 +1,7 @@
 ![R CMD check](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check/badge.svg)
 ![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
 ![download per month](https://cranlogs.r-pkg.org/badges/sivs)
+<script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script><div data-badge-popover="bottom" data-badge-type="1" data-doi="10.1038/nature.2014.14583" altmetric-id="109762358" data-hide-no-mentions="true" class="altmetric-embed"></div>
 
 #  Stable Iterative Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
 
@@ -37,7 +38,7 @@ remotes::install_github('mmahmoudian/sivs')
 You can also build this package completelty from source and you are expected to get identical files as in CRAN. This can be useful for those who want to contribute to the package. I have made it easy and straight-forward to build and test the package using the [GNU make](https://www.gnu.org/software/make/). Follow these steps in order:
 
 0. First make sure you have the `make` installed and the package building dependencies
-   ```r
+   ```sh
    # if make is installed, you will see the version
    make --version
    
@@ -46,31 +47,37 @@ You can also build this package completelty from source and you are expected to 
    ```
 1. Change the code and files as needed
 2. if you have changed the R code and want to test it, you can build the R code and skip building the manual and vignette:
-   ```r
+   ```sh
    make build-noman
    ```
    if you have changed the manual:
-   ```r
+   ```sh
    make docs
    make build
    ```
 3. install the package and make sure things are in order and working as you expected:
-   ```r
+   ```sh
    make install
    ```
 4. When you confirmed that everything is in order, repeat all the building steps with CRAN checking:
-   ```r
+   ```sh
    make docs build check-cran install
    ```
    Alternatively you can run the following which is short-form for the command above:
-   ```r
+   ```sh
    make all-cran
    ```
 
 
 ## Contribution
 
-This is a [Free and Libré OpenSource Software (FLOSS)](https://en.wikipedia.org/wiki/Free_and_open-source_software) and therefore any contribution is welcome as long as it does not violate [the license](https://github.com/mmahmoudian/sivs/blob/master/LICENSE). To contribute, follow the steps in the [Building From Source](#building-from-source) and then before creating the pull-request, make sure you have solved all ERRORs, WARNINGs and possibly all NOTEs produced by `make check-cran`.
+This is a [Free and Libré OpenSource Software (FLOSS)](https://en.wikipedia.org/wiki/Free_and_open-source_software) and therefore any contribution is welcome as long as it does not violate [the license](https://github.com/mmahmoudian/sivs/blob/master/LICENSE). To contribute, follow the steps in the [Building From Source](#building-from-source) and then before creating the pull-request, make sure you have solved all ERRORs, WARNINGs and possibly all NOTEs produced by the following:
+
+```sh
+make all-cran
+```
+
+make check-cran`
 
 
 ## Citation
