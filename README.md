@@ -1,7 +1,7 @@
 ![R CMD check](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check/badge.svg)
 ![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
 ![download per month](https://cranlogs.r-pkg.org/badges/sivs)
-<script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script><div data-badge-popover="bottom" data-badge-type="1" data-doi="10.1038/nature.2014.14583" altmetric-id="109762358" data-hide-no-mentions="true" class="altmetric-embed"></div>
+
 
 #  Stable Iterative Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
 
