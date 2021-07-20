@@ -32,6 +32,46 @@ remotes::install_github('mmahmoudian/sivs')
 ```
 
 
+## Building From Source
+
+You can also build this package completelty from source and you are expected to get identical files as in CRAN. This can be useful for those who want to contribute to the package. I have made it easy and straight-forward to build and test the package using the [GNU make](https://www.gnu.org/software/make/). Follow these steps in order:
+
+0. First make sure you have the `make` installed and the package building dependencies
+   ```r
+   # if make is installed, you will see the version
+   make --version
+   
+    # this will check if you have the needed R packages and if not, it will install them for you
+   make deps
+   ```
+1. Change the code and files as needed
+2. if you have changed the R code and want to test it, you can build the R code and skip building the manual and vignette:
+   ```r
+   make build-noman
+   ```
+   if you have changed the manual:
+   ```r
+   make docs
+   make build
+   ```
+3. install the package and make sure things are in order and working as you expected:
+   ```r
+   make install
+   ```
+4. When you confirmed that everything is in order, repeat all the building steps with CRAN checking:
+   ```r
+   make docs build check-cran install
+   ```
+   Alternatively you can run the following which is short-form for the command above:
+   ```r
+   make all-cran
+   ```
+
+
+## Contribution
+
+This is a [Free and Libré OpenSource Software (FLOSS)](https://en.wikipedia.org/wiki/Free_and_open-source_software) and therefore any contribution is welcome as long as it does not violate [the license](https://github.com/mmahmoudian/sivs/blob/master/LICENSE). To contribute, follow the steps in the [Building From Source](#building-from-source) and then before creating the pull-request, make sure you have solved all ERRORs, WARNINGs and possibly all NOTEs produced by `make check-cran`.
+
 
 ## Citation
 
