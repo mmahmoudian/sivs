@@ -75,10 +75,8 @@ This is a [Free and Libré OpenSource Software (FLOSS)](https://en.wikipedia.org
 
 ```sh
 make all-cran
-```
-
 make check-cran`
-
+```
 
 ## Citation
 
