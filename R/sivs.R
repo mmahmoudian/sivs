@@ -1008,6 +1008,14 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         # remove the runs that could not converge (and as the result have NA instead of coefficients' dataframe)
         clean.iterative.res <- iterative.res[!sapply(lapply(iterative.res, "[[", "coef"), is.logical)]
         
+        # if there were not any runs that have converged
+        if(length(clean.iterative.res) == 0){
+            stop("In the Iterative step, none of the ", length(iterative.res),
+                 " runs got converged. This means that sivs cannot progress to",
+                 " subsequent steps, and you should use different",
+                 " 'method' or normalize your data differently.")
+        }
+        
         coef.df <- Reduce(function(...){ merge(...,
                                                 by = "names",
                                                 all = TRUE) },
