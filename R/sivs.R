@@ -192,10 +192,12 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         func.zscore <- function(x){
             ## Description:
             ##   A function to perform zscore standardization on a vector of numbers
+            ##    even when the standard deviation is zero! The base::scale() would
+            ##    return NaN if sd(x)==0.
             ## 
             ## Arguments:
             ##   x:  A numeric vector
-            as.numeric((x - mean(x = x, na.rm = TRUE)) / sd(x = x, na.rm = TRUE))
+            as.numeric((x - mean(x = x, na.rm = TRUE)) / (sd(x = x, na.rm = TRUE) ^ as.logical(sd(x))))
         }
         
         
@@ -495,7 +497,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             
             func.cat("     [OK]")
         }
-
+        
         #-------[ debug.mode ]-------#
         {
             func.cat("\t| debug.mode", new.line = FALSE)
