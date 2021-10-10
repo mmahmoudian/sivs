@@ -649,20 +649,20 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                                             each = ceiling(length(tmp.columns.to.zscore) / parallel.cores))[1:length(tmp.columns.to.zscore)])
                 
                 # standardize in parallel
-                tmp.zscore.res <- foreach(i = 1:length(tmp.bins),
-                                            .inorder = TRUE,
-                                            .combine = cbind.data.frame) %mydo% {
-                                                
-                                                
-                                                # if user wants to have progressbar
-                                                if(progressbar){
-                                                    # increment the progressbar
-                                                    setTxtProgressBar(pb = pb, value = getTxtProgressBar(pb) + 1)
-                                                }
-                                                
-                                                
-                                                lapply(x[, tmp.bins[[i]]], func.zscore)
-                                            }
+                tmp.zscore.res <- foreach::foreach(i = 1:length(tmp.bins),
+                                                   .inorder = TRUE,
+                                                   .combine = cbind.data.frame) %mydo% {
+                                                       
+                                                       
+                                                       # if user wants to have progressbar
+                                                       if(progressbar){
+                                                           # increment the progressbar
+                                                           setTxtProgressBar(pb = pb, value = getTxtProgressBar(pb) + 1)
+                                                       }
+                                                       
+                                                       
+                                                       lapply(x[, tmp.bins[[i]]], func.zscore)
+                                                   }
                 
                 
                 # if user wants to have progressbar
@@ -844,7 +844,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         }
         
         
-        iterative.res <- foreach(i = 1:iter.count, .inorder = TRUE) %mydo% {
+        iterative.res <- foreach::foreach(i = 1:iter.count, .inorder = TRUE) %mydo% {
             
             suppressPackageStartupMessages({
                 requireNamespace("glmnet")
