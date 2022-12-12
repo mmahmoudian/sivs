@@ -14,7 +14,7 @@
 #'     excluded from the output.
 #'
 #' @return A character vector that contains the names of suggested features based
-#' on the defined strictness.
+#' on the defined strictness. If the provided sivs object does not have any feature with VIMP score higher than zero, you will get an empty vector along with a warning. If the provided vector has some features with VIMP>0 but after applying the strictness and filtering, we don't end up with any feature left to suggest, you will recieve an empty vector along with a message. Both warnings and messages can be suppressed in R by `suppressWarnings()` and `suppressMessages()` respectively.
 #' 
 #' @examples
 #' \dontrun{
@@ -70,6 +70,12 @@ suggest <- function(object, strictness = 0.01, plot = FALSE){
                 stop("The provided object does not have rfe section and as ",
                         "the result the rfe cannot be plotted. During the sivs run You have been warned that sivs function could not perform the rfe step, perhaps due to low number of remained features.")
             }
+
+            # initial check to make sure we have at least some important features in the object
+            if(all(object$vimp <= 0)){
+                warning("The provided SIVS object does not have any feature with VIMP score more than 0! Therefore, we cannot suggest anything :)")
+                return()
+            }
         }
         
         
@@ -111,12 +117,18 @@ suggest <- function(object, strictness = 0.01, plot = FALSE){
             
             # calculate the cutoff value
             AUC_cutoff <- ((1 - strictness) * (max(na.omit(median_AUROCs)) - min(na.omit(median_AUROCs)))) + min(na.omit(median_AUROCs))
+
             
             VIMP_features <- names(sort(x = object$vimp[object$vimp > 0], decreasing = TRUE))
             
             last_suggested_feature <- which(is.element(VIMP_features, head(names(which(median_AUROCs < AUC_cutoff)), n = 1)))
-            
-            final <- VIMP_features[1:last_suggested_feature]
+
+            # handle the situation if no feature is left after our suggestion filtering
+            if(length(last_suggested_feature)){
+                final <- VIMP_features[1:last_suggested_feature]
+            }else{
+                message("It seems with this suggestion criteria, nothing is left to suggest. Try loosening the the strictness and choosing a smaller strictness value. The current strictness value is: ", strictness)
+                return(c())
         }
         
         
