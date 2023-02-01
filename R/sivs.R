@@ -422,12 +422,12 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 # if the length of the vector is more than 1
                 if((length(parallel.cores) != 1)){
                     # complain
-                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
+                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                 # if the value is not an integer and also is not any of the acceptable values
                 }else if((!varhandle::check.numeric(v = parallel.cores, only.integer = TRUE)) &
                             (!is.element(tolower(parallel.cores), c(acceptable.parallel.cores)))){
                     # complain
-                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
+                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                 }
                 
                 # if parallel.cores is numeric
