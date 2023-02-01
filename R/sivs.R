@@ -454,15 +454,35 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                     }else if(parallel.cores == "grace"){
                         # set the number to maximum possible but leave one out for the grace
                         parallel.cores <- parallel::detectCores() - 1
+                    }else{
+                        # complain
+                        stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                     }
                 }
-                
+
+                ## if number of features is less than number of cores, truncate
+                ## the reserved cores. This was reported in the following:
+                ## https://github.com/mmahmoudian/sivs/issues/3
+                tmp_warning_msg <- NULL
+                if(parallel.cores > ncol(x)){
+                    tmp_warning_msg <- paste0("Number of assigned CPU cores is ",
+                                              parallel.cores,
+                                              " but the total number of features are less than that (",
+                                              ncol(x),
+                                              "). We have reduced the number of cores to avoid paralellization errors.")
+                    parallel.cores <- ncol(x) - 1
+                }
                 
                 # add the variable into our internal environment
                 assign(x = "parallel.cores", value = parallel.cores, envir = sivs.internal.env)
             }
-            
+
             func.cat(" [OK]")
+            
+            # generate proper message if the last if condition is met
+            if(!is.null(tmp_warning_msg)){
+                func.cat("\t| \t|", tmp_warning_msg, importance = 2)
+            }
         }
         
         #-------[ progressbar ]-------#
