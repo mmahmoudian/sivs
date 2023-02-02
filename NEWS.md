@@ -1,3 +1,11 @@
+## 0.2.6
+
+The package is now built against the R 4.2.2, but nothing is preventing the user to build it agains any other minor version of R version 4. To assist this process, the `makefile` was updated to make the process smoother (try `make help`).
+
+- `sivs()`
+    - [fix] [a bug](https://github.com/mmahmoudian/sivs/issues/3) was fixed that was throwing error when number fo features were less than available cores of the CPU.
+    - [fix] some part of the code was still using the old way of comparing class of objects. Those were migrated to `inherits()`
+
 ## 0.2.5
 
 There is no functional changes in the R codebase. All changes are in the documentation to add the citation information. If you are interested in knowing the changes in details, please read the git commits in the project's Github page.
