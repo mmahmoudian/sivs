@@ -201,21 +201,6 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         }
         
         
-        func.lappend <- function (x, ...){
-            ## Description:
-            ##   A function to append item to the list
-            ## 
-            ## Arguments:
-            ##   x:    An obkect of class list. It can be a list object with
-            ##          length = 1.
-            ##   
-            ##   ...:  Items to be added to the list. They can be named.
-            
-            x <- list(x, list(...))
-            return(x)
-        }
-        
-        
         func.create.foldID <- function(grouping = sample.grouping, k = nfolds, seed){
             ## Description:
             ##   a function to calculate the fold for cross-validation.
