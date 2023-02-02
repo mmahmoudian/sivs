@@ -397,6 +397,9 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         {
             func.cat("\t| parallel.cores", new.line = FALSE)
             
+            # a variable to be filled if any warning needs to be returned
+            tmp.warning.msg <- NULL
+            
             # if user have set the parallel.cores to NULL or FALSE
             if(is.null(parallel.cores) | all(parallel.cores == FALSE)){
                 `%mydo%` <- foreach::`%do%`
@@ -448,9 +451,9 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 ## if number of features is less than number of cores, truncate
                 ## the reserved cores. This was reported in the following:
                 ## https://github.com/mmahmoudian/sivs/issues/3
-                tmp_warning_msg <- NULL
+                
                 if(parallel.cores > ncol(x)){
-                    tmp_warning_msg <- paste0("Number of assigned CPU cores is ",
+                    tmp.warning.msg <- paste0("Number of assigned CPU cores is ",
                                               parallel.cores,
                                               " but the total number of features are less than that (",
                                               ncol(x),
@@ -465,9 +468,12 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             func.cat(" [OK]")
             
             # generate proper message if the last if condition is met
-            if(!is.null(tmp_warning_msg)){
-                func.cat("\t| \t|", tmp_warning_msg, importance = 2)
+            if(!is.null(tmp.warning.msg)){
+                func.cat("\t| \t|", tmp.warning.msg, importance = 2)
             }
+            
+            # remove the variable we don't need
+            rm(tmp.warning.msg)
         }
         
         #-------[ progressbar ]-------#
