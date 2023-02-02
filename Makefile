@@ -32,7 +32,9 @@ help:
 
 
 deps:
-	tlmgr install pgf preview xcolor;\
+	command -v tlmgr &> /dev/null && tlmgr install pgf preview xcolor;\
+	Rscript -e 'if (!is.element("xml2", installed.packages()[, 1])){ install.packages("xml2", repos="http://cran.rstudio.com") }' ;\
+	Rscript -e 'if (!is.element("stringi", installed.packages()[, 1])){ install.packages("stringi", repos="http://cran.rstudio.com") }' ;\
 	Rscript -e 'if (!is.element("devtools", installed.packages()[, 1])){ install.packages("devtools", repos="http://cran.rstudio.com") }' ;\
 	Rscript -e 'if (!is.element("Rd2roxygen", installed.packages()[, 1])){ install.packages("Rd2roxygen", repos="http://cran.rstudio.com") }' ;\
 	Rscript -e 'if (!is.element("pROC", installed.packages()[, 1])){ install.packages("pROC", repos="http://cran.rstudio.com") }' ;\
