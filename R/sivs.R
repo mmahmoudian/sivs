@@ -295,7 +295,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             # if the y is a vector
             if(inherits(y, acceptable.y.classes)){
                 # special checks for class Surv
-                if(class(y) == "Surv"){
+                if(inherits(y, "Surv")){
                     # check if the x and y have the same length
                     if(nrow(y) != nrow(x)){
                         stop("The 'y' and 'x' argumets should have the same as the number of rows.")
@@ -759,7 +759,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                         if(!is.element("family", names(tmp.dots))){
                             tmp.dots[["family"]] <- NULL
                             ## or if the user have made the mistake of assigning anything but character vector to argument 'family'
-                        }else if(class(tmp.dots[["family"]]) != "character"){
+                        }else if(inherits(tmp.dots[["family"]], "character")){
                             tmp.dots[["family"]] <- NULL
                             ## if user have added more than 1 family
                         }else if(length(tmp.dots[["family"]]) != 1){
