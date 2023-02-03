@@ -127,8 +127,10 @@ suggest <- function(object, strictness = 0.01, plot = FALSE){
             if(length(last_suggested_feature)){
                 final <- VIMP_features[1:last_suggested_feature]
             }else{
-                message("It seems with this suggestion criteria, nothing is left to suggest. Try loosening the the strictness and choosing a smaller strictness value. The current strictness value is: ", strictness)
-                return(c())
+                message("It seems with this suggestion criteria, nothing is left to suggest. Try loosening the the strictness and choosing a smaller strictness value. The current strictness value is: ", strictness, ifelse(interactive(), "\n"))
+                
+                return(NULL)
+            }
         }
         
         
