@@ -64,9 +64,6 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
     
     #-------[ initialize some variables ]-------#
     {
-        # define the list of accepatble names that the S3 object should have
-        acceptable.object.names <- c("iterative.res", "selection.freq", "vimp", "rfe", "rfe.issues", "run.info", "x", "y")
-        
         # define the types that this function can plot
         acceptable.types <- c("frequency", "coef", "rfe")
     }

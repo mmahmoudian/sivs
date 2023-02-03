@@ -201,21 +201,6 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         }
         
         
-        func.lappend <- function (x, ...){
-            ## Description:
-            ##   A function to append item to the list
-            ## 
-            ## Arguments:
-            ##   x:    An obkect of class list. It can be a list object with
-            ##          length = 1.
-            ##   
-            ##   ...:  Items to be added to the list. They can be named.
-            
-            x <- list(x, list(...))
-            return(x)
-        }
-        
-        
         func.create.foldID <- function(grouping = sample.grouping, k = nfolds, seed){
             ## Description:
             ##   a function to calculate the fold for cross-validation.
@@ -310,7 +295,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
             # if the y is a vector
             if(inherits(y, acceptable.y.classes)){
                 # special checks for class Surv
-                if(class(y) == "Surv"){
+                if(inherits(y, "Surv")){
                     # check if the x and y have the same length
                     if(nrow(y) != nrow(x)){
                         stop("The 'y' and 'x' argumets should have the same as the number of rows.")
@@ -412,6 +397,9 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
         {
             func.cat("\t| parallel.cores", new.line = FALSE)
             
+            # a variable to be filled if any warning needs to be returned
+            tmp.warning.msg <- NULL
+            
             # if user have set the parallel.cores to NULL or FALSE
             if(is.null(parallel.cores) | all(parallel.cores == FALSE)){
                 `%mydo%` <- foreach::`%do%`
@@ -422,12 +410,12 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                 # if the length of the vector is more than 1
                 if((length(parallel.cores) != 1)){
                     # complain
-                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
+                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                 # if the value is not an integer and also is not any of the acceptable values
                 }else if((!varhandle::check.numeric(v = parallel.cores, only.integer = TRUE)) &
                             (!is.element(tolower(parallel.cores), c(acceptable.parallel.cores)))){
                     # complain
-                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of max\", \"grace\", or NULL.")
+                    stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                 }
                 
                 # if parallel.cores is numeric
@@ -454,15 +442,38 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                     }else if(parallel.cores == "grace"){
                         # set the number to maximum possible but leave one out for the grace
                         parallel.cores <- parallel::detectCores() - 1
+                    }else{
+                        # complain
+                        stop("The value provided for the argument 'parallel.cores' should be a vector of length 1 containing a positive integer number or either of \"max\", \"grace\", or NULL.")
                     }
                 }
+
+                ## if number of features is less than number of cores, truncate
+                ## the reserved cores. This was reported in the following:
+                ## https://github.com/mmahmoudian/sivs/issues/3
                 
+                if(parallel.cores > ncol(x)){
+                    tmp.warning.msg <- paste0("Number of assigned CPU cores is ",
+                                              parallel.cores,
+                                              " but the total number of features are less than that (",
+                                              ncol(x),
+                                              "). We have reduced the number of cores to avoid paralellization errors.")
+                    parallel.cores <- ncol(x) - 1
+                }
                 
                 # add the variable into our internal environment
                 assign(x = "parallel.cores", value = parallel.cores, envir = sivs.internal.env)
             }
-            
+
             func.cat(" [OK]")
+            
+            # generate proper message if the last if condition is met
+            if(!is.null(tmp.warning.msg)){
+                func.cat("\t| \t|", tmp.warning.msg, importance = 2)
+            }
+            
+            # remove the variable we don't need
+            rm(tmp.warning.msg)
         }
         
         #-------[ progressbar ]-------#
@@ -754,7 +765,7 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                         if(!is.element("family", names(tmp.dots))){
                             tmp.dots[["family"]] <- NULL
                             ## or if the user have made the mistake of assigning anything but character vector to argument 'family'
-                        }else if(class(tmp.dots[["family"]]) != "character"){
+                        }else if(inherits(tmp.dots[["family"]], "character")){
                             tmp.dots[["family"]] <- NULL
                             ## if user have added more than 1 family
                         }else if(length(tmp.dots[["family"]]) != 1){
