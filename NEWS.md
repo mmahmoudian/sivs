@@ -1,3 +1,8 @@
+## 0.2.7
+
+- `suggest()`
+    - [fix] the function was throwing uncatched error when the criteria was strict enough not to pass any features. Now it wil return `NULL` along with a `message`. ([issue #4](https://github.com/mmahmoudian/sivs/issues/4))
+
 ## 0.2.6
 
 The package is now built against the R 4.2.2, but nothing is preventing the user to build it agains any other minor version of R version 4. To assist this process, the `makefile` was updated to make the process smoother (try `make help`).

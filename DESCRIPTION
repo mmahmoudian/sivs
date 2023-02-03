@@ -1,8 +1,8 @@
 Package: sivs
 Type: Package
 Title: Stable Iterative Variable Selection
-Version: 0.2.6
-Date: 2023-02-02
+Version: 0.2.7
+Date: 2023-02-03
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
                     email = "mehrad.mahmoudian@utu.fi",
