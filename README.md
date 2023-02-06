@@ -1,7 +1,18 @@
+<div align="center">
+<p>
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sivs)](http://cran.r-project.org/package=sivs "Latest version in CRAN")
+[![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/sivs)](http://cran.rstudio.com/web/packages/sivs/index.html "CRAN Monthly Downloads")
+[![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/sivs)](http://cran.rstudio.com/web/packages/sivs/index.html "CRAN Total Downloads")
+
+</p>
+<p>
+
 ![R CMD check](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check/badge.svg)
 ![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
-![download per month](https://cranlogs.r-pkg.org/badges/sivs)
 
+</p>
+</div>
 
 #  Stable Iterative Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
 
@@ -32,6 +43,11 @@ if (!require("remotes")) install.packages("remotes")
 remotes::install_github('mmahmoudian/sivs')
 ```
 
+Additionally, this package is also available via various package managers in Linux:
+
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/r:sivs.svg)](https://repology.org/project/r:sivs/versions)
+
 
 ## Building From Source
 
@@ -42,7 +58,10 @@ You can also build this package completelty from source and you are expected to 
    # if make is installed, you will see the version
    make --version
    
-    # this will check if you have the needed R packages and if not, it will install them for you
+   # this will show you a general help of available commands
+   make help
+   
+   # this will check if you have the needed R packages and if not, it will install them for you
    make deps
    ```
 1. Change the code and files as needed
@@ -75,14 +94,14 @@ This is a [Free and Libré OpenSource Software (FLOSS)](https://en.wikipedia.org
 
 ```sh
 make all-cran
-make check-cran`
+make check-cran
 ```
 
 ## Citation
 
 This method has been published in the journal of Bioinformatics:
 
-Mehrad Mahmoudian, Mikko S Venäläinen, Riku Klén, Laura L Elo, Stable Iterative Variable Selection, Bioinformatics, 2021;, btab501, https://doi.org/10.1093/bioinformatics/btab501
+**Mehrad Mahmoudian**, Mikko S Venäläinen, Riku Klén, Laura L Elo, Stable Iterative Variable Selection, Bioinformatics, 2021;, btab501, **<https://doi.org/10.1093/bioinformatics/btab501>**
 
 BibTeX entry for LaTeX users:
 
