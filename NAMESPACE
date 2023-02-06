@@ -3,6 +3,7 @@
 S3method(coef,sivs)
 S3method(plot,sivs)
 S3method(str,sivs)
+export(is.sivs)
 export(sivs)
 export(suggest)
 import(doParallel)
