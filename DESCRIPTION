@@ -32,4 +32,4 @@ BugReports: https://github.com/mmahmoudian/sivs/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-VignetteBuilder: knitr
+VignetteBuilder: markdown, knitr
