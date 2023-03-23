@@ -8,9 +8,10 @@
 </p>
 <p>
 
+<!--
 ![R CMD check](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check/badge.svg)
 ![R CMD check --as-cran](https://github.com/mmahmoudian/sivs/workflows/R%20CMD%20check%20--as-cran/badge.svg)
-
+-->
 </p>
 </div>
 
@@ -105,7 +106,7 @@ This method has been published in the journal of Bioinformatics:
 
 BibTeX entry for LaTeX users:
 
-```
+```bib
 @article{10.1093/bioinformatics/btab501,
     author = {Mahmoudian, Mehrad and Venäläinen, Mikko S and Klén, Riku and Elo, Laura L},
     title = "{Stable Iterative Variable Selection}",
