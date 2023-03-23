@@ -1,3 +1,12 @@
+## 0.2.9
+
+[fix] Adding `markdown` package to the list of suggestions to bypass the vignette building error.
+
+## 0.2.8
+
+- `is.sivs()`
+    - [fix] This function was not properly exported and in this version is correctly exported.
+
 ## 0.2.7
 
 - `suggest()`
