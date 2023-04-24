@@ -1,3 +1,7 @@
+## HEAD (not on CRAN)
+
+- [update] The package startup message format was a bit modified. 
+
 ## 0.2.9
 
 [fix] Adding `markdown` package to the list of suggestions to bypass the vignette building error.

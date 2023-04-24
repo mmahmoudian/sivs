@@ -7,11 +7,13 @@
 
 .onAttach <- function(libname, pkgname){
     pkgVersion <- packageDescription(pkgname, fields = "Version")
-    msg <- paste0(pkgname, " v", pkgVersion,
-                  "\nPlease consider citing this method using either of the following:",
-                  "\n\t- citation(sivs)",
-                  "\n\t- https://doi.org/10.1093/bioinformatics/btab501",
-                  "\nFor help: https://github.com/mmahmoudian/sivs/")
+    msg <- paste0("--------------------------------------------------------------------------------",
+                  "\n  ", pkgname, " v", pkgVersion,
+                  "\n  Please consider citing this method using either of the following:",
+                  "\n  \t- citation(sivs)",
+                  "\n  \t- https://doi.org/10.1093/bioinformatics/btab501",
+                  "\n  For help: https://github.com/mmahmoudian/sivs/",
+                  "--------------------------------------------------------------------------------")
 
     packageStartupMessage(msg)
 }
