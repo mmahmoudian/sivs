@@ -26,6 +26,7 @@ For citation information, see the [citation section](#citation) of this document
 **Table of Content**
 
 - [Installation](#installation)
+- [Quick start](#quick-start)
 - [Building From Source](#building-from-source)
 - [Contribution](#contribution)
 - [Citation](#citation)
@@ -58,6 +59,35 @@ Additionally, this package is also available via various package managers in Lin
 
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/r:sivs.svg)](https://repology.org/project/r:sivs/versions)
+
+
+## Quick Start
+
+There is already [a very good vignette](https://cran.r-project.org/web/packages/sivs/vignettes/vignette_simple_usage.html) that explains how `sivs` should be used and I strongly encourage you to read it, but if you need a very very short set of instructions to kick-start, here it is:
+
+In this example let's assume you have two classes (e.g dead vs. alive) that you want to know which minimal set of features can be used to differentiate between them:
+
+1. Prepare your data
+   - have features as columns, and samples as rows
+   - normalize, impute missing values, etc. as you see fit
+   - if you have multiple samples from the same individual, do your best that you have the same number of samples per individual (e.g by randomly choos them) to prevent giving extra weight to specific individual
+2. Run `sivs::sivs()`
+    ```r
+    require("sivs")
+    sivs_obj <- sivs::sivs(x = data, y = class)
+    ```
+3. get the variable (a.k.a feature) importance. This only contains features that have importance more than 0:
+    ```r
+    sivs_obj$vimp
+    ```
+4. [optional] shrink the feature list even more. This will only return an ordered list of features which is typicaly much smaller than `vimp`:
+   ```r
+   sivs_suggested_features <- sivs::suggest(sivs_obj)
+   ```
+5. Now you can only use these features in your machine learning:
+   ```r
+   smaller_data <- data[, sivs_suggested_features]
+   ```
 
 
 ## Building From Source
