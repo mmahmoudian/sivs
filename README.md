@@ -15,7 +15,7 @@
 </p>
 </div>
 
-#  Stable Iterative Variable Selection (SIVS) <img src="misc/img/SIVS_logo.png" width="140" align="right" />
+#  Stable Iterative Variable Selection (SIVS) <img src="misc/img/sivs_logo2.png" width="200" align="right" />
 
 SIVS is an acronym of Stable Iterative Variable Selection, and as the name suggests is a feature selection method that is robust to the variations that cross-validation can have on various methods with embedded feature selection. This method hired an iterative approach and  internally utilizes varius Machine Learning methods which have embedded feature reduction in order to shrink down the feature space into a small and yet robust set.
 
