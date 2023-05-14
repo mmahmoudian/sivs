@@ -21,6 +21,16 @@ SIVS is an acronym of Stable Iterative Variable Selection, and as the name sugge
 
 For citation information, see the [citation section](#citation) of this document.
 
+-------
+
+**Table of Content**
+
+- [Installation](#installation)
+- [Building From Source](#building-from-source)
+- [Contribution](#contribution)
+- [Citation](#citation)
+
+-------
 
 ## Installation
 
