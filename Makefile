@@ -9,13 +9,16 @@ PKGVERS := $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKGSRC  := $(shell basename "`pwd`")
 TODAY   := $(shell date "+%F")
 
+RM = rm --force
+
 all: docs build check install
 
 
 all-cran: docs build check-cran install
 
 
-help: 
+help:
+	$(info --------------------------------------------------------------------------------)
 	$(info Available arguments:)
 	$(info - "make help"         show this help)
 	$(info - "make deps"         to check if you have all dependencies installed)
@@ -27,6 +30,7 @@ help:
 	$(info - "make check-cran"   check the built package in accordance to CRAN standards)
 	$(info - "make all"          alias for running docs + build + check + install)
 	$(info - "make all-cran"     alias for running docs + build + check-cran + install)
+	$(info --------------------------------------------------------------------------------)
 #	to suppress the "make: 'help' is up to date." message
 	@:
 
@@ -87,8 +91,7 @@ travis: build-noman
 
 clean:
 	cd ..;\
-	$(RM) --recursive --force $(PKGNAME).Rcheck/ ;\
-	$(RM) --recursive --force $(PKGNAME)_$(PKGVERS).tar.gz ;\
-	$(RM) --recursive --force $(PKGNAME)_$(PKGVERS)_R_x86_64-pc-linux-gnu.tar.gz
-
+	$(RM) --recursive $(PKGNAME).Rcheck/ ;\
+	$(RM) $(PKGNAME)_$(PKGVERS).tar.gz ;\
+	$(RM) $(PKGNAME)_*_R_x86_64-pc-linux-gnu.tar.gz
 
