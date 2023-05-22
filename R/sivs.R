@@ -673,8 +673,10 @@ sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
                                                            setTxtProgressBar(pb = pb, value = getTxtProgressBar(pb) + 1)
                                                        }
                                                        
-                                                       
-                                                       lapply(x[, tmp.bins[[i]]], func.zscore)
+                                                       # apply the zscore function to the columns of this bin
+                                                       lapply(subset(x = x,
+                                                                     select = tmp.bins[[i]]),
+                                                              func.zscore)
                                                    }
                 
                 

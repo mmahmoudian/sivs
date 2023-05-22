@@ -1,10 +1,12 @@
 ## HEAD (not on CRAN)
 
-- [update] The package startup message format was a bit modified. 
+- [update] The package startup message format was a bit modified.
+- `sivs()`
+    - [fix] Warning was produced while performing zscoring when parallel core was in use. This is **not** a breaking change. (Read more info [here](https://github.com/mmahmoudian/sivs/issues/7))
 
 ## 0.2.9
 
-[fix] Adding `markdown` package to the list of suggestions to bypass the vignette building error.
+- [fix] Adding `markdown` package to the list of suggestions to bypass the vignette building error.
 
 ## 0.2.8
 
