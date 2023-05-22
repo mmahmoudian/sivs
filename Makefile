@@ -11,6 +11,21 @@ TODAY   := $(shell date "+%F")
 
 RM = rm --force
 
+COLOR ?= TRUE
+
+ifeq ($(COLOR),TRUE)
+	COLOR_RESET :=$(shell tput sgr0)
+	COLOR_ERROR :=$(shell tput setaf 1)
+	COLOR_SUCCESS :=$(shell tput setaf 2)
+	COLOR_MESSAGE :=$(shell tput setaf 3)
+else
+	COLOR_RESET :=
+	COLOR_ERROR :=
+	COLOR_SUCCESS :=
+	COLOR_MESSAGE :=
+endif
+
+
 all: docs build check install
 
 
@@ -20,16 +35,18 @@ all-cran: docs build check-cran install
 help:
 	$(info --------------------------------------------------------------------------------)
 	$(info Available arguments:)
-	$(info - "make help"         show this help)
-	$(info - "make deps"         to check if you have all dependencies installed)
-	$(info - "make clean"        clean all the files and folders caused by building the package)
-	$(info - "make build-noman"  build without building the manual)
-	$(info - "make build"        build everything)
-	$(info - "make docs"         generate documentations)
-	$(info - "make check"        check the built package quickly)
-	$(info - "make check-cran"   check the built package in accordance to CRAN standards)
-	$(info - "make all"          alias for running docs + build + check + install)
-	$(info - "make all-cran"     alias for running docs + build + check-cran + install)
+	$(info - "$(COLOR_MESSAGE)make help$(COLOR_RESET)"         show this help)
+	$(info - "$(COLOR_MESSAGE)make deps$(COLOR_RESET)"         to check if you have all dependencies installed)
+	$(info - "$(COLOR_MESSAGE)make clean$(COLOR_RESET)"        clean all the files and folders caused by building the package)
+	$(info - "$(COLOR_MESSAGE)make build-noman$(COLOR_RESET)"  build without building the manual)
+	$(info - "$(COLOR_MESSAGE)make build$(COLOR_RESET)"        build everything)
+	$(info - "$(COLOR_MESSAGE)make docs$(COLOR_RESET)"         generate documentations)
+	$(info - "$(COLOR_MESSAGE)make check$(COLOR_RESET)"        check the built package quickly)
+	$(info - "$(COLOR_MESSAGE)make check-cran$(COLOR_RESET)"   check the built package in accordance to CRAN standards)
+	$(info - "$(COLOR_MESSAGE)make all$(COLOR_RESET)"          alias for running docs + build + check + install)
+	$(info - "$(COLOR_MESSAGE)make all-cran$(COLOR_RESET)"     alias for running docs + build + check-cran + install)
+	$(info )
+	$(info You can turn off colorizing the make output by $(COLOR_MESSAGE)"COLOR=FALSE"$(COLOR_RESET))
 	$(info --------------------------------------------------------------------------------)
 #	to suppress the "make: 'help' is up to date." message
 	@:
@@ -95,3 +112,12 @@ clean:
 	$(RM) $(PKGNAME)_$(PKGVERS).tar.gz ;\
 	$(RM) $(PKGNAME)_*_R_x86_64-pc-linux-gnu.tar.gz
 
+
+#cleanall:
+#	$(shell declare -a REMOVABLE_PATTERN=('../*.Rcheck/' \
+#	                                       '$(PKGNAME)_$(PKGVERS).tar.gz' \
+#	                                       '$(PKGNAME)_*_R_x86_64-pc-linux-gnu.tar.gz') && \
+#	        for F in "$${REMOVABLE_PATTERN[@]}"; do
+#	        	find ./ -maxdepth 1 -name $${F} -exec rm --interactive '{}' \;
+#	        done)
+#
