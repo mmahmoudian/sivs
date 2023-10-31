@@ -5,7 +5,7 @@ Version: 0.2.9
 Date: 2023-03-23
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
-                    email = "mehrad.mahmoudian@utu.fi",
+                    email = "m.mahmoudian@gmail.com",
                     comment = c(ORCID = "0000-0001-7650-1862")),
              person(given = "Mikko", family = "Venäläinen",
                     role = c("aut", "rev"),
