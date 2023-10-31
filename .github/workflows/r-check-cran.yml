@@ -4,7 +4,7 @@ name: R CMD check --as-cran
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, fix-actions ]
   pull_request:
     branches: [ master ]
 
@@ -14,10 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        R: [ '4.1.0' ]
+        R: [ '4.3.1' ]
 
     steps:
       - uses: actions/checkout@master
+      - name: Get system information
+        run: |
+          sudo apt-get install inxi
+          inxi --system --repos --disk --memory
       - name: Install R-related dependencies
         run: |
           sudo apt-get install libcurl4-openssl-dev
@@ -32,11 +36,13 @@ jobs:
           install.packages(c("remotes", "devtools"))
           devtools::install_dev_deps(pkg = ".", dependencies = TRUE)
         shell: Rscript {0}
-      - name: Check dependencies with makefile
-        run: make deps
-      - name: Running make - documentation
-        run: make clean docs
-      - name: Running make - building
-        run: make build
-      - name: Running make - check with CRAN
-        run: make check-cran
+      - name: R Check
+        run: devtools::check()
+#      - name: Check dependencies with makefile
+#        run: make deps
+#      - name: Running make - documentation
+#        run: make clean docs
+#      - name: Running make - building
+#        run: make build
+#      - name: Running make - check with CRAN
+#        run: make check-cran
