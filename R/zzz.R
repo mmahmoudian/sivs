@@ -13,7 +13,7 @@
                   "\n  \t- citation(sivs)",
                   "\n  \t- https://doi.org/10.1093/bioinformatics/btab501",
                   "\n  For help: https://github.com/mmahmoudian/sivs/",
-                  "--------------------------------------------------------------------------------")
+                  "\n--------------------------------------------------------------------------------")
 
     packageStartupMessage(msg)
 }
