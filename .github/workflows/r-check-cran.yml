@@ -21,7 +21,7 @@ jobs:
       - name: Get system information
         run: |
           sudo apt-get install inxi
-          inxi --system --repos --disk --memory
+          inxi --color 0 --system --repos --disk --memory
       - name: Install R-related dependencies
         run: |
           sudo apt-get install libcurl4-openssl-dev
