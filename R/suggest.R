@@ -1,18 +1,18 @@
 #' Cutoff Suggestion for sivs Object
-#'
+#' 
 #' A function to suggest the user a set of features based on sivs object and the provided strictness
-#'
+#' 
 #' @param object The object that is produced by the sivs function.
 #' @param strictness A numerical vector of length 1 showing how strict the suggestion should be, ranging from 0 to 1 where 0 is less strict and 1 is the most strict. Default value is 0.01. For more information, check the Details section.
 #' @param plot A logical vector of length 1 indicating whether the suggestion should also be plotted in the "rfe" plot. The same plot can be generated via plot.sivs() function when the suggestion_strictness is set according to the strictness argument of this function.
-#'
+#' 
 #' @details This function tries to narrow down the list of VIMP features in sivs object into a smaller feature list based on provided strictness coefficient. This function practically defines a threshold for AUCs in the rfe (Recursive Feature Elimination) step of sivs. Any run with any set of features that are above the AUC threshold will be eliminated and all the features that were contributing into having an AUC lower than the threshold are returned. The cutoff is defined as:
 #'     ((1 - strictness) * (max(median_AUROCs) - min(median_AUROCs))) + min(median_AUROCs)
 #'     where median_AUROCs is the median of AUROCs for each run in rfe step of
 #'     sivs. Note that this function is supposed to give the feature space based
 #'     on the cutoff and hence the intercept (if exists in the VIMP) will be
 #'     excluded from the output.
-#'
+#' 
 #' @return A character vector that contains the names of suggested features based
 #' on the defined strictness. If the provided sivs object does not have any feature with VIMP score higher than zero, you will get an empty vector along with a warning. If the provided vector has some features with VIMP>0 but after applying the strictness and filtering, we don't end up with any feature left to suggest, you will recieve an empty vector along with a message. Both warnings and messages can be suppressed in R by `suppressWarnings()` and `suppressMessages()` respectively.
 #' 

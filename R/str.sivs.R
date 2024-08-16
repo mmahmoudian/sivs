@@ -1,11 +1,11 @@
 #' Structure of sivs object
-#'
+#' 
 #' @description This function shows the structure of a an object of either class
 #' "sivs" or "list" and shows the internal structure of the object in
 #' human-readable format. sivs object is a complex S3 object and it might be a
 #' deterrent to users to get to know if better. This function is aiming to
 #' facilitate the experience of user.
-#'
+#' 
 #' @param object An object of class "sivs" or "list".
 #' @param max_depth A numerical value of length 1 indicating how many layers the
 #' function should dive into.

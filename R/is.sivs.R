@@ -6,7 +6,7 @@
 #' 
 #' @return This function will return TRUE if it detects the function is truely a
 #' sivs object, otherwise it will return FALSE.
-#'
+#' 
 #' @export
 
 is.sivs <- function(object){

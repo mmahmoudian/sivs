@@ -1,12 +1,12 @@
 #' A plotting function for sivs object
-#'
+#' 
 #' @description A function to plot the object of the sivs function.
-#'
+#' 
 #' @param x The object that is produced by the sivs function.
 #' @param type Which plot do you want to have. Acceptable values are "frequency", "coef", and "rfe".
 #' @param suggestion_strictness The strictness value that indicates how much the thresholds should be strict. For more details visit help page of `suggest()` function. If you want ru suppress the suggestion on the plot, set this to NULL.
 #' @param ... The other argument you might want to pass to each plot.
-#'
+#' 
 #' @details The rfe plot ignores the existance of intercept since intercept
 #' cannot be removed in the recursive feature elimination step. This
 #' is the reason that the number of features with vimp greater than 0
@@ -56,7 +56,7 @@
 #' @import graphics
 #' @import stats
 #' @import utils
-#'
+#' 
 #' @export
 
 plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),

@@ -1,10 +1,10 @@
 #' Stable Iterative Variable Selection
-#'
+#' 
 #' @description The name is an acronym for Stable Iterative Variable Selection.
 #' This function will iteratively run a machine learning method that can
 #' incorporate a shrinkage method using multiple random seeds in order to find
 #' the smallest set of features that can robustly be predictive.
-#'
+#' 
 #' @param x The input data. Each row should represent a sample and each column should represent a feature.
 #' @param y Response variable. It should be of class factor for classification and of class Surv for survival.
 #' @param test.ratio How much of the data should be cut and used for testing
@@ -73,7 +73,7 @@
 #' @import doParallel
 #' @import glmnet
 #' @importFrom pROC roc auc
-#'
+#' 
 #' @export
 
 sivs <- function(x, y, test.ratio = 1/3, method = "glmnet",
