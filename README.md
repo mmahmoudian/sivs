@@ -4,6 +4,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sivs)](http://cran.r-project.org/package=sivs "Latest version in CRAN")
 [![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/sivs)](http://cran.rstudio.com/web/packages/sivs/index.html "CRAN Monthly Downloads")
 [![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/sivs)](http://cran.rstudio.com/web/packages/sivs/index.html "CRAN Total Downloads")
+[![Software Heritage Archived Badge](https://archive.softwareheritage.org/badge/origin/https://github.com/mmahmoudian/sivs/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https%3A%2F%2Fgithub.com%2Fmmahmoudian%2Fsivs)
 
 </p>
 <p>
