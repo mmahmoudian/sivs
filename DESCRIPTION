@@ -1,8 +1,8 @@
 Package: sivs
 Type: Package
 Title: Stable Iterative Variable Selection
-Version: 0.2.10
-Date: 2023-10-31
+Version: 0.2.11
+Date: 2025-05-10
 Encoding: UTF-8
 Authors@R: c(person(given = "Mehrad", family = "Mahmoudian",
                     role = c("aut", "cre"),
@@ -30,5 +30,5 @@ URL: https://github.com/mmahmoudian/sivs,
      https://doi.org/10.1093/bioinformatics/btab501
 BugReports: https://github.com/mmahmoudian/sivs/issues
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 VignetteBuilder: markdown, knitr

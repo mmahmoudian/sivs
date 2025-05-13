@@ -1,5 +1,12 @@
 ## HEAD (not on CRAN)
 
+## 0.2.11
+
+- [fix] minor fix regarding the vignette data download. If the target URL was not accessible, the package building was crashing. Now the vignette building peacefully terminates.
+
+
+## 0.2.10
+
 - [update] The package startup message format was a bit modified.
 - `sivs()`
     - [fix] Warning was produced while performing zscoring when parallel core was in use. This is **not** a breaking change. (Read more info [here](https://github.com/mmahmoudian/sivs/issues/7))
