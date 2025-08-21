@@ -250,11 +250,11 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
                 # These are the features that were not tested in RFE because they were considered too important to remove
                 vimp_names <- names(tmp.vimp)
                 rfe_names <- names(tmp.rfe)
-                missing_features <- vimp_names[!vimp_names %in% rfe_names]
+                missing_features <- setdiff(vimp_names, rfe_names)
                 
                 # Add empty list entries for missing features at the end (since they are the most important)
                 for(feature_name in missing_features) {
-                    tmp.rfe[[feature_name]] <- numeric(0)  # Empty numeric vector for features not tested in RFE
+                    tmp.rfe[[feature_name]] <- NA  # NA for features not tested in RFE
                 }
                 
                 # Reorder tmp.rfe to match the order of tmp.vimp (from least important to most important)
