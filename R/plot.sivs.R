@@ -240,19 +240,35 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
                 tmp.vimp <- sort(x$vimp[x$vimp > 0], decreasing = FALSE)
                 
                 
-                # remove the last two items in the vimp since they have not been excluded in rfe step due to being the most significant features
-                tmp.vimp <- head(x = tmp.vimp, n = -2)
-                
-                
-                # extract the AUCs from the
+                # extract the AUCs from the RFE results
                 tmp.rfe <- lapply(x$rfe,
                                     function(x){
                                         sapply(x, "[[", "auc")
                                     })
                 
+                # Add placeholder entries for features that don't have RFE data (the top 2 most important features)
+                # These are the features that were not tested in RFE because they were considered too important to remove
+                vimp_names <- names(tmp.vimp)
+                rfe_names <- names(tmp.rfe)
+                missing_features <- setdiff(vimp_names, rfe_names)
+                
+                # Add empty list entries for missing features at the end (since they are the most important)
+                for(feature_name in missing_features) {
+                    tmp.rfe[[feature_name]] <- NA  # NA for features not tested in RFE
+                }
+                
+                # Reorder tmp.rfe to match the order of tmp.vimp (from least important to most important)
+                tmp.rfe <- tmp.rfe[vimp_names]
+                
                 # get which rfe runs converged (a logical vector)
-                valid.rfe <- sapply(x$rfe, function(x){
-                    any(!is.na(sapply(x, "[[", "coef")))
+                # For features that were not tested in RFE (missing_features), mark them as valid since they are displayed
+                valid.rfe <- sapply(names(tmp.rfe), function(feature_name) {
+                    if (feature_name %in% missing_features) {
+                        return(TRUE)  # Features not tested in RFE are shown as valid
+                    } else {
+                        # For features that were tested in RFE, check if they converged
+                        return(any(!is.na(sapply(x$rfe[[feature_name]], "[[", "coef"))))
+                    }
                 })
                 
                 
@@ -285,7 +301,7 @@ plot.sivs <- function(x, type = c("frequency", "coef", "rfe"),
                 par(new = TRUE)
                 boxplot(x = tmp.rfe, xaxt = "n", xlab = "", ylab = "AUROC", las = 2, cex.lab = 0.8, cex.axis = 0.7, tcl = 0.4)
                 
-                axis(side = 3, at = 1:length(tmp.rfe), labels = (length(tmp.vimp) + 2):2, tcl = 0.4, mgp = c(0, -0.1, 1), lwd = 1.5, cex.axis = 0.7, col.axis = "peachpuff4", col = "peachpuff4")
+                axis(side = 3, at = 1:length(tmp.rfe), labels = length(tmp.vimp):1, tcl = 0.4, mgp = c(0, -0.1, 1), lwd = 1.5, cex.axis = 0.7, col.axis = "peachpuff4", col = "peachpuff4")
                 mtext(side = 3, text = "Number of Features Left", cex = 0.8, line = 1.1, col = "peachpuff4")
                 
                 
